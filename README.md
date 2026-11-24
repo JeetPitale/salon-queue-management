@@ -1,7 +1,7 @@
 # Salon Queue Management System
 *Live demo:* https://salon-queue-management-kappa.vercel.app/
 *Hosted on:* Vercel (Frontend & Serverless API) + Neon (Cloud PostgreSQL)  
-*Mobile Demo Video (1080×1920 Full HD MP4):* [demo-video.mp4](demo-video.mp4) *(GitHub Release Download: https://github.com/JeetPitale/salon-queue-management/releases/download/v1.2.0/demo-video.mp4)*
+*Mobile Demo Video (1080×1920 Full HD MP4):**(GitHub Release Download: https://github.com/JeetPitale/salon-queue-management/releases/download/v1.2.0/demo-video.mp4)*
 
 ---
 
