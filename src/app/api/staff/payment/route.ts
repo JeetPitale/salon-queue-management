@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { PaymentMethod, QueueStatus } from "@prisma/client";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: Request) {
   try {
     const { entryId, amount, method } = await req.json();

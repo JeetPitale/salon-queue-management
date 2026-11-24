@@ -4,6 +4,8 @@ import { recalculateQueueWaitTimes, getTodayDateString } from "@/lib/queue-rules
 import { broadcastQueueUpdate } from "@/lib/events";
 import { StylistStatus } from "@prisma/client";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: Request) {
   try {
     const { staffId, status } = await req.json();

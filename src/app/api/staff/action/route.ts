@@ -3,6 +3,8 @@ import { updateQueueStatus, canStylistPerformServices } from "@/lib/queue-rules"
 import { prisma } from "@/lib/prisma";
 import { QueueStatus } from "@prisma/client";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: Request) {
   try {
     const { action, entryId, staffId, reason } = await req.json();

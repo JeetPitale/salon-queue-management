@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { updateQueueStatus } from "@/lib/queue-rules";
 import { QueueStatus } from "@prisma/client";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: Request) {
   try {
     const { entryId, reason } = await req.json();
