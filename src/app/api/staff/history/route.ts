@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getTodayDateString } from "@/lib/queue-rules";
-import { QueueStatus } from "@prisma/client";
+import { Prisma, QueueStatus } from "@prisma/client";
 
 export const dynamic = "force-dynamic";
 
@@ -16,21 +16,23 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "Salon not found" }, { status: 404 });
     }
 
+    const whereClause: Prisma.QueueEntryWhereInput = {
+      salonId: salon.id,
+      tokenDate,
+      status: { in: [QueueStatus.COMPLETED, QueueStatus.NO_SHOW, QueueStatus.CANCELLED] },
+    };
+
+    if (search) {
+      const isNum = !isNaN(Number(search));
+      whereClause.OR = [
+        { customer: { name: { contains: search, mode: "insensitive" } } },
+        { customer: { phone: { contains: search } } },
+        ...(isNum ? [{ tokenNumber: Number(search) }] : []),
+      ];
+    }
+
     const historyEntries = await prisma.queueEntry.findMany({
-      where: {
-        salonId: salon.id,
-        tokenDate,
-        status: { in: [QueueStatus.COMPLETED, QueueStatus.NO_SHOW, QueueStatus.CANCELLED] },
-        ...(search
-          ? {
-              OR: [
-                { customer: { name: { contains: search, mode: "insensitive" } } },
-                { customer: { phone: { contains: search } } },
-                { tokenNumber: isNaN(Number(search)) ? undefined : Number(search) },
-              ].filter(Boolean),
-            }
-          : {}),
-      },
+      where: whereClause,
       include: {
         customer: true,
         assignedStaff: true,
