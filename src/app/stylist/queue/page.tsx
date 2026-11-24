@@ -273,13 +273,13 @@ export default function StylistChairConsole() {
               </div>
 
               <div className="my-4">
-                <span className="text-6xl font-black text-primary">
+                <span className="text-5xl sm:text-6xl font-black text-primary">
                   #{currentServing.tokenNumber}
                 </span>
-                <h3 className="text-2xl font-extrabold text-[#1B1B1F] mt-1">
+                <h3 className="text-xl sm:text-2xl font-extrabold text-[#1B1B1F] mt-1 break-words">
                   {currentServing.customerName}
                 </h3>
-                <p className="text-sm font-semibold text-muted mt-1">
+                <p className="text-xs sm:text-sm font-semibold text-muted mt-1">
                   Services: {currentServing.services.map((s) => s.name).join(", ")} (
                   {currentServing.services.reduce((a, b) => a + b.durationMinutes, 0)} mins)
                 </p>
@@ -290,9 +290,9 @@ export default function StylistChairConsole() {
                 {currentServing.status === "CALLED" && (
                   <button
                     onClick={() => handleAction("start", currentServing.id)}
-                    className="flex-1 min-h-[48px] rounded-xl bg-[#6B3FA0] hover:opacity-90 text-white font-black text-base flex items-center justify-center gap-2 shadow-sm"
+                    className="flex-1 min-h-[44px] sm:min-h-[48px] rounded-xl bg-[#6B3FA0] hover:opacity-90 text-white font-black text-xs sm:text-sm md:text-base flex items-center justify-center gap-1.5 sm:gap-2 shadow-sm active:scale-95 px-3"
                   >
-                    <Play className="w-5 h-5" />
+                    <Play className="w-4 h-4 sm:w-5 h-5 shrink-0" />
                     <span>Customer Seated: Start Service</span>
                   </button>
                 )}
@@ -300,9 +300,9 @@ export default function StylistChairConsole() {
                 {currentServing.status === "IN_SERVICE" && (
                   <button
                     onClick={() => handleAction("complete", currentServing.id)}
-                    className="flex-1 min-h-[48px] rounded-xl bg-[#2D6A1F] hover:opacity-90 text-white font-black text-base flex items-center justify-center gap-2 shadow-sm"
+                    className="flex-1 min-h-[44px] sm:min-h-[48px] rounded-xl bg-[#2D6A1F] hover:opacity-90 text-white font-black text-xs sm:text-sm md:text-base flex items-center justify-center gap-1.5 sm:gap-2 shadow-sm active:scale-95 px-3"
                   >
-                    <CheckCircle className="w-5 h-5" />
+                    <CheckCircle className="w-4 h-4 sm:w-5 h-5 shrink-0" />
                     <span>Work Done: Complete Service</span>
                   </button>
                 )}
@@ -321,11 +321,13 @@ export default function StylistChairConsole() {
 
         {/* Next Waiting Customers Matching My Skills (R4) */}
         <div className="space-y-3">
-          <div className="flex items-center justify-between">
-            <h2 className="text-lg font-bold text-primary">
+          <div className="flex items-center justify-between gap-2 flex-wrap">
+            <h2 className="text-base sm:text-lg font-bold text-primary">
               Customers Waiting for My Skills ({eligibleWaiting.length})
             </h2>
-            <span className="text-xs text-muted">Rule R4 Skill-Matched</span>
+            <span className="text-xs text-muted bg-[#FAF8F5] px-2.5 py-1 rounded-full border border-[#E4E1DC] shrink-0">
+              Rule R4 Skill-Matched
+            </span>
           </div>
 
           <div className="space-y-2.5">
@@ -337,22 +339,24 @@ export default function StylistChairConsole() {
               eligibleWaiting.map((cust) => (
                 <div
                   key={cust.id}
-                  className="p-4 rounded-2xl bg-white border border-[#E4E1DC] flex items-center justify-between hover:border-primary/40 transition-colors"
+                  className="p-3.5 sm:p-4 rounded-2xl bg-white border border-[#E4E1DC] flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-primary/40 transition-colors shadow-sm"
                 >
-                  <div className="flex items-center gap-4">
-                    <span className="text-3xl font-black text-primary">
+                  <div className="flex items-start sm:items-center gap-3 min-w-0 flex-1">
+                    <span className="text-2xl sm:text-3xl font-black text-primary shrink-0">
                       #{cust.tokenNumber}
                     </span>
-                    <div>
-                      <p className="font-bold text-sm text-[#1B1B1F]">{cust.customerName}</p>
-                      <p className="text-xs text-muted">
+                    <div className="min-w-0 flex-1">
+                      <p className="font-bold text-sm text-[#1B1B1F] truncate" title={cust.customerName}>
+                        {cust.customerName}
+                      </p>
+                      <p className="text-xs text-muted truncate">
                         {cust.services.map((s) => s.name).join(", ")}
                       </p>
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-4">
-                    <div className="text-right text-xs">
+                  <div className="flex items-center justify-between sm:justify-end gap-3 pt-2 sm:pt-0 border-t sm:border-t-0 border-[#E4E1DC]/70 shrink-0">
+                    <div className="text-left sm:text-right text-xs">
                       <span className="font-bold text-primary flex items-center gap-1">
                         <Clock className="w-3.5 h-3.5 text-accent" />
                         {cust.estimatedWaitMinutes}m wait
@@ -362,9 +366,9 @@ export default function StylistChairConsole() {
                     <button
                       disabled={Boolean(currentServing)}
                       onClick={() => handleAction("call", cust.id)}
-                      className={`px-4 py-2.5 rounded-xl font-bold text-xs flex items-center gap-1.5 shadow-sm transition-all ${
+                      className={`px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl font-bold text-xs flex items-center justify-center gap-1.5 shadow-sm transition-all ${
                         !currentServing
-                          ? "bg-accent hover:opacity-95 text-white active:scale-95"
+                          ? "bg-accent hover:opacity-95 text-white active:scale-95 cursor-pointer"
                           : "bg-[#E4E1DC] text-muted cursor-not-allowed"
                       }`}
                     >
