@@ -22,32 +22,31 @@ export async function GET() {
 
     const tokenDate = getTodayDateString();
 
-    // People currently waiting
-    const waitingCount = await prisma.queueEntry.count({
-      where: {
-        salonId: salon.id,
-        tokenDate,
-        status: QueueStatus.WAITING,
-      },
-    });
-
-    // Total active people (waiting + called + in_service)
-    const activeEntries = await prisma.queueEntry.findMany({
-      where: {
-        salonId: salon.id,
-        tokenDate,
-        status: { in: [QueueStatus.WAITING, QueueStatus.CALLED, QueueStatus.IN_SERVICE] },
-      },
-      include: { services: true },
-    });
-
-    const workingStylists = await prisma.staff.count({
-      where: {
-        salonId: salon.id,
-        role: "STYLIST",
-        status: { not: StylistStatus.OFF_DUTY },
-      },
-    });
+    // Fetch waiting count, active entries, and working stylists concurrently
+    const [waitingCount, activeEntries, workingStylists] = await Promise.all([
+      prisma.queueEntry.count({
+        where: {
+          salonId: salon.id,
+          tokenDate,
+          status: QueueStatus.WAITING,
+        },
+      }),
+      prisma.queueEntry.findMany({
+        where: {
+          salonId: salon.id,
+          tokenDate,
+          status: { in: [QueueStatus.WAITING, QueueStatus.CALLED, QueueStatus.IN_SERVICE] },
+        },
+        include: { services: true },
+      }),
+      prisma.staff.count({
+        where: {
+          salonId: salon.id,
+          role: "STYLIST",
+          status: { not: StylistStatus.OFF_DUTY },
+        },
+      }),
+    ]);
 
     const totalMinutes = activeEntries.reduce(
       (sum, e) => sum + e.services.reduce((sSum, s) => sSum + s.durationMinutes, 0),

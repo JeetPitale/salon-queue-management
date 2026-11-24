@@ -19,33 +19,33 @@ export async function GET(req: Request) {
     // Auto-check expired grace calls (R6)
     await checkAndReleaseExpiredCalls(salon.id);
 
-    // Active entries (WAITING, CALLED, IN_SERVICE) in token order
-    const entries = await prisma.queueEntry.findMany({
-      where: {
-        salonId: salon.id,
-        tokenDate,
-        status: { in: [QueueStatus.WAITING, QueueStatus.CALLED, QueueStatus.IN_SERVICE] },
-      },
-      include: {
-        customer: true,
-        assignedStaff: true,
-        services: { include: { service: true } },
-        payment: true,
-      },
-      orderBy: { tokenNumber: "asc" },
-    });
-
-    // Stylists list
-    const stylists = await prisma.staff.findMany({
-      where: {
-        salonId: salon.id,
-        role: "STYLIST",
-      },
-      include: {
-        skills: { include: { service: true } },
-      },
-      orderBy: { name: "asc" },
-    });
+    // Fetch active entries and stylists in parallel
+    const [entries, stylists] = await Promise.all([
+      prisma.queueEntry.findMany({
+        where: {
+          salonId: salon.id,
+          tokenDate,
+          status: { in: [QueueStatus.WAITING, QueueStatus.CALLED, QueueStatus.IN_SERVICE] },
+        },
+        include: {
+          customer: true,
+          assignedStaff: true,
+          services: { include: { service: true } },
+          payment: true,
+        },
+        orderBy: { tokenNumber: "asc" },
+      }),
+      prisma.staff.findMany({
+        where: {
+          salonId: salon.id,
+          role: "STYLIST",
+        },
+        include: {
+          skills: { include: { service: true } },
+        },
+        orderBy: { name: "asc" },
+      }),
+    ]);
 
     return NextResponse.json({
       salonId: salon.id,
