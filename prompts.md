@@ -395,3 +395,21 @@ This document contains the complete, chronological record of every prompt given 
   - Verified 1080×1920 Full HD MP4 video (`130.2s`, 5.32 MB) with zero element overlaps, crisp typography, and full UI visibility.
   - Updated `./demo-video.mp4` and `./public/demo-video.mp4`.
   - Created and published GitHub release `v1.2.0` with downloadable asset.
+
+---
+
+### Prompt 18 (Stylist Console 320px Mobile Responsiveness)
+* **Date & Time**: 2026-11-24 23:39:07 IST
+* **Raw Prompt**:
+  ```text
+  fix issue
+  [Attached image: Chrome DevTools responsive 320x661 view of /stylist/queue showing customer name overflowing and Call to My Chair buttons cut off on the right]
+  ```
+* **Intent**: Fix mobile layout clipping on `/stylist/queue` at narrow viewports (320px), where customer names pushed action buttons off-screen.
+* **Result**:
+  - Refactored `src/app/stylist/queue/page.tsx` customer cards to a responsive flex layout (`flex-col sm:flex-row`).
+  - Added text truncation (`truncate`, `min-w-0`) to long customer names so cards never exceed screen bounds.
+  - Placed the action row (wait time and *"Call to My Chair"* button) on a clean, dedicated bottom row on mobile viewports with a subtle top border.
+  - Wrapped `Rule R4 Skill-Matched` badge with `flex-wrap` and pill badge styling.
+  - Verified in Chrome DevTools at 320px × 661px: zero horizontal overflow, all buttons fully visible and clickable.
+  - Pushed fix to GitHub `main` (commit `cafd618`).
