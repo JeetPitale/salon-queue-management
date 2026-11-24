@@ -443,3 +443,18 @@ This document contains the complete, chronological record of every prompt given 
   - Confirmed that Next.js App Router runs unified full-stack architecture: all REST API endpoints (`/api/*`) and Server-Sent Events (`/api/live`) run directly on Vercel as serverless functions.
   - No separate deployment on Render is required.
   - Verified that Vercel is actively executing backend Prisma queries, requiring only the Neon `DATABASE_URL` environment variable.
+
+---
+
+### Prompt 21 (Repository Clean-Up & Obsolete File Deletion)
+* **Date & Time**: 2026-11-24 23:58:49 IST
+* **Raw Prompt**:
+  ```text
+  delete unessary videos and files
+  ```
+* **Intent**: Clean up repository by deleting obsolete video files, superseded generator scripts, and temporary build/screenshot artifacts.
+* **Result**:
+  - Removed obsolete video `public/demo-video-full.mp4` (9.37 MB), keeping only the verified `demo-video.mp4` (4.73 MB).
+  - Removed superseded generator scripts (`scripts/create-demo-video.mjs`, `scripts/create-saas-demo-video.mjs`, `scripts/create-aligned-demo-video.mjs`, `scripts/test-responsive-viewports.mjs`, `scripts/test-numeral-localization.mjs`), retaining the single active `scripts/create-realistic-mobile-demo.mjs`.
+  - Purged temporary video frames, audio cuts, and headless Chrome browser caches from `/tmp/`.
+  - Committed and pushed clean tree to GitHub `main`.
