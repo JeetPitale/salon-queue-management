@@ -19,7 +19,7 @@ interface DisplayEntry {
 }
 
 export default function PublicDisplayBoard() {
-  const { language, setLanguage, t, tService } = useLanguage();
+  const { language, setLanguage, t, tService, tNumber } = useLanguage();
 
   const [entries, setEntries] = useState<DisplayEntry[]>([]);
   const [salonName, setSalonName] = useState("Velvet & Blade Salon");
@@ -140,7 +140,7 @@ export default function PublicDisplayBoard() {
           <div className="flex sm:hidden items-center gap-1.5 bg-white/10 px-3 py-1.5 rounded-xl border border-white/10">
             <Clock className="w-4 h-4 text-accent" />
             <span className="text-sm font-mono font-bold tracking-wider">
-              {currentTime}
+              {tNumber(currentTime)}
             </span>
           </div>
         </div>
@@ -167,7 +167,7 @@ export default function PublicDisplayBoard() {
           <div className="hidden sm:flex items-center gap-2 bg-white/10 px-4 py-2 rounded-xl border border-white/10">
             <Clock className="w-5 h-5 text-accent" />
             <span className="text-xl lg:text-2xl font-mono font-bold tracking-wider">
-              {currentTime}
+              {tNumber(currentTime)}
             </span>
           </div>
 
@@ -195,7 +195,7 @@ export default function PublicDisplayBoard() {
               <span>{t("now_serving")}</span>
             </h2>
             <span className="text-xs sm:text-sm font-semibold text-white/70">
-              {nowServing.length} {t("in_chairs")}
+              {tNumber(nowServing.length)} {t("in_chairs")}
             </span>
           </div>
 
@@ -230,7 +230,7 @@ export default function PublicDisplayBoard() {
                       </div>
 
                       <div className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight my-2">
-                        #{item.tokenNumber}
+                        #{tNumber(item.tokenNumber)}
                       </div>
 
                       {/* Token numbers and first names ONLY, never phone numbers (Rule D1) */}
@@ -261,7 +261,7 @@ export default function PublicDisplayBoard() {
             </h2>
             <div className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-accent">
               <Clock className="w-4 h-4 shrink-0" />
-              <span>{t("average_wait")}: {avgWait}m</span>
+              <span>{t("average_wait")}: {tNumber(avgWait)}m</span>
             </div>
           </div>
 
@@ -278,10 +278,10 @@ export default function PublicDisplayBoard() {
                 >
                   <div className="flex items-center gap-4">
                     <span className="w-8 text-center text-lg font-bold text-white/50">
-                      #{idx + 1}
+                      #{tNumber(idx + 1)}
                     </span>
                     <div className="w-14 h-14 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center text-2xl font-black">
-                      #{item.tokenNumber}
+                      #{tNumber(item.tokenNumber)}
                     </div>
                     <div>
                       {/* First name only (Rule D1) */}
@@ -294,7 +294,7 @@ export default function PublicDisplayBoard() {
 
                   <div className="text-right">
                     <span className="text-lg font-black text-accent">
-                      ~{item.estimatedWaitMinutes}m
+                      ~{tNumber(item.estimatedWaitMinutes)}m
                     </span>
                     <p className="text-xs text-white/50">{t("est_wait")}</p>
                   </div>

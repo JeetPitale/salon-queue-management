@@ -24,7 +24,7 @@ interface ServiceItem {
 }
 
 export default function KioskCheckIn() {
-  const { language, setLanguage, t, tService } = useLanguage();
+  const { language, setLanguage, t, tService, tNumber } = useLanguage();
 
   const [step, setStep] = useState<"welcome" | "services" | "phone" | "otp" | "token">("welcome");
   const [services, setServices] = useState<ServiceItem[]>([]);
@@ -304,9 +304,9 @@ export default function KioskCheckIn() {
                       <div className="flex items-center gap-3 sm:gap-4 mt-1.5 text-xs sm:text-sm text-muted">
                         <span className="flex items-center gap-1">
                           <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-accent" />
-                          {s.durationMinutes} {t("mins")}
+                          {tNumber(s.durationMinutes)} {t("mins")}
                         </span>
-                        <span className="font-extrabold text-primary">₹{s.price}</span>
+                        <span className="font-extrabold text-primary">₹{tNumber(s.price)}</span>
                       </div>
                     </div>
 
@@ -327,9 +327,9 @@ export default function KioskCheckIn() {
             <div className="bg-white border border-[#E4E1DC] rounded-2xl p-4 sm:p-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 sm:gap-4 shadow-md">
               <div className="space-y-0.5 sm:space-y-1">
                 <p className="text-xs sm:text-sm font-semibold text-muted">
-                  {selectedIds.length} {t("service_chosen")} • {totalDuration} {t("mins")}
+                  {tNumber(selectedIds.length)} {t("service_chosen")} • {tNumber(totalDuration)} {t("mins")}
                 </p>
-                <p className="text-xl sm:text-2xl font-black text-primary">{t("total_price")}: ₹{totalPrice}</p>
+                <p className="text-xl sm:text-2xl font-black text-primary">{t("total_price")}: ₹{tNumber(totalPrice)}</p>
               </div>
 
               <button
@@ -464,7 +464,7 @@ export default function KioskCheckIn() {
               </p>
               <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-full bg-accent/15 border-4 border-accent text-primary flex items-center justify-center mx-auto shadow-inner">
                 <span className="text-5xl sm:text-7xl font-black tracking-tight">
-                  #{tokenData.tokenNumber}
+                  #{tNumber(tokenData.tokenNumber)}
                 </span>
               </div>
             </div>
@@ -472,7 +472,7 @@ export default function KioskCheckIn() {
             <div className="inline-flex items-center gap-2 bg-[#FAF8F5] px-4 sm:px-6 py-2 sm:py-2.5 rounded-full border border-[#E4E1DC]">
               <Clock className="w-4 h-4 sm:w-5 sm:h-5 text-accent" />
               <span className="text-sm sm:text-lg font-extrabold text-[#1B1B1F]">
-                {t("estimated_wait")}: {tokenData.waitMinutes} {t("mins")}
+                {t("estimated_wait")}: {tNumber(tokenData.waitMinutes)} {t("mins")}
               </span>
             </div>
 
@@ -493,7 +493,7 @@ export default function KioskCheckIn() {
 
             {/* 30s reset countdown (F2) */}
             <div className="pt-2 text-xs text-muted">
-              <span>{t("reset_countdown_text")} <strong>{countdown}s</strong></span>
+              <span>{t("reset_countdown_text")} <strong>{tNumber(countdown)}s</strong></span>
               <button
                 onClick={handleFullReset}
                 className="block mx-auto mt-2 text-primary font-bold hover:underline"

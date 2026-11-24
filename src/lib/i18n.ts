@@ -1,5 +1,19 @@
 export type Language = "en" | "hi" | "gu";
 
+export const devanagariDigits = ["०", "१", "२", "३", "४", "५", "६", "७", "८", "९"];
+export const gujaratiDigits = ["૦", "૧", "૨", "૩", "૪", "૫", "૬", "૭", "૮", "૯"];
+
+export function formatLocalizedNumber(
+  val: number | string | null | undefined,
+  lang: Language
+): string {
+  if (val === null || val === undefined) return "";
+  const str = String(val);
+  if (lang === "en") return str;
+  const digits = lang === "gu" ? gujaratiDigits : devanagariDigits;
+  return str.replace(/[0-9]/g, (digit) => digits[parseInt(digit, 10)]);
+}
+
 export const serviceTranslations: Record<string, { hi: string; gu: string }> = {
   Haircut: {
     hi: "हेयरकट (बाल काटना)",

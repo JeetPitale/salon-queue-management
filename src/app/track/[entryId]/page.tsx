@@ -46,7 +46,7 @@ export default function TokenLiveTracking({
   params: { entryId: string };
 }) {
   const { entryId } = params;
-  const { t, tService } = useLanguage();
+  const { t, tService, tNumber } = useLanguage();
 
   const [data, setData] = useState<EntryDetails | null>(null);
   const [loading, setLoading] = useState(true);
@@ -175,7 +175,7 @@ export default function TokenLiveTracking({
   const formatSeconds = (sec: number) => {
     const m = Math.floor(sec / 60);
     const s = sec % 60;
-    return `${m}:${String(s).padStart(2, "0")}`;
+    return `${tNumber(m)}:${tNumber(String(s).padStart(2, "0"))}`;
   };
 
   return (
@@ -226,7 +226,7 @@ export default function TokenLiveTracking({
 
             <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-full border-4 border-accent/40 bg-accent/10 flex items-center justify-center mx-auto my-2 shadow-inner">
               <span className="text-5xl sm:text-6xl font-black text-primary tracking-tight">
-                #{data.tokenNumber}
+                #{tNumber(data.tokenNumber)}
               </span>
             </div>
 
@@ -254,7 +254,7 @@ export default function TokenLiveTracking({
                   </span>
                 </div>
                 <p className="text-3xl font-extrabold text-primary">
-                  {data.peopleAhead}
+                  {tNumber(data.peopleAhead)}
                 </p>
               </div>
 
@@ -266,7 +266,7 @@ export default function TokenLiveTracking({
                   </span>
                 </div>
                 <p className="text-3xl font-extrabold text-primary">
-                  {data.estimatedWaitMinutes} <span className="text-xs font-normal text-muted">{t("mins")}</span>
+                  {tNumber(data.estimatedWaitMinutes)} <span className="text-xs font-normal text-muted">{t("mins")}</span>
                 </p>
               </div>
             </div>
@@ -302,9 +302,9 @@ export default function TokenLiveTracking({
                 <div key={s.id} className="py-2 flex items-center justify-between text-sm">
                   <div>
                     <span className="font-medium text-[#1B1B1F]">{tService(s.name)}</span>
-                    <span className="text-xs text-muted ml-2">({s.durationMinutes} {t("mins")})</span>
+                    <span className="text-xs text-muted ml-2">({tNumber(s.durationMinutes)} {t("mins")})</span>
                   </div>
-                  <span className="font-bold text-primary">₹{s.price}</span>
+                  <span className="font-bold text-primary">₹{tNumber(s.price)}</span>
                 </div>
               ))}
             </div>

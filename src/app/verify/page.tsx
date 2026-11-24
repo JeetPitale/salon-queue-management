@@ -8,7 +8,7 @@ import { Phone, User, KeyRound, ArrowRight, ShieldCheck, AlertCircle } from "luc
 
 export default function OtpVerification() {
   const router = useRouter();
-  const { t } = useLanguage();
+  const { t, tNumber } = useLanguage();
 
   const [step, setStep] = useState<"phone" | "otp">("phone");
   const [name, setName] = useState("");
@@ -237,7 +237,7 @@ export default function OtpVerification() {
               <div className="flex items-center justify-between text-xs text-muted pt-1">
                 <span>{t("didnt_receive_code")}</span>
                 {resendSeconds > 0 ? (
-                  <span>{t("resend_in")} {resendSeconds}s</span>
+                  <span>{t("resend_in")} {tNumber(resendSeconds)}s</span>
                 ) : (
                   <button
                     type="button"

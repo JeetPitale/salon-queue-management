@@ -23,7 +23,7 @@ interface SalonData {
 }
 
 export default function SalonHome() {
-  const { t } = useLanguage();
+  const { t, tNumber } = useLanguage();
   const [data, setData] = useState<SalonData | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeEntryId, setActiveEntryId] = useState<string | null>(null);
@@ -104,7 +104,7 @@ export default function SalonHome() {
                 {isOpen ? t("open") : t("closed")}
               </span>
               <span className="text-xs text-muted">
-                {data?.salon?.openingTime || "09:00"} - {data?.salon?.closingTime || "21:00"}
+                {tNumber(data?.salon?.openingTime || "09:00")} - {tNumber(data?.salon?.closingTime || "21:00")}
               </span>
             </div>
 
@@ -128,7 +128,7 @@ export default function SalonHome() {
 
             <div className="my-3 flex items-baseline justify-center">
               <span className="text-5xl sm:text-6xl lg:text-7xl font-black text-primary tracking-tight">
-                {isOpen ? waitMinutes : "--"}
+                {isOpen ? tNumber(waitMinutes) : "--"}
               </span>
               <span className="text-base sm:text-lg font-semibold text-muted ml-2">
                 {t("mins")}
@@ -139,7 +139,7 @@ export default function SalonHome() {
             <div className="inline-flex items-center gap-2 bg-[#FAF8F5] px-4 py-2 rounded-full border border-[#E4E1DC] mt-2">
               <Users className="w-4 h-4 text-accent shrink-0" />
               <span className="text-xs sm:text-sm font-semibold text-[#1B1B1F]">
-                {waitingCount} {t("people_waiting")}
+                {tNumber(waitingCount)} {t("people_waiting")}
               </span>
             </div>
 
@@ -159,7 +159,7 @@ export default function SalonHome() {
                 <span className="text-xs font-semibold">{t("hours_today")}</span>
               </div>
               <p className="text-xs sm:text-sm font-bold text-[#1B1B1F] truncate">
-                {data?.salon?.openingTime} - {data?.salon?.closingTime}
+                {tNumber(data?.salon?.openingTime || "09:00")} - {tNumber(data?.salon?.closingTime || "21:00")}
               </p>
             </div>
 
@@ -169,7 +169,7 @@ export default function SalonHome() {
                 <span className="text-xs font-semibold">{t("active_stylists")}</span>
               </div>
               <p className="text-xs sm:text-sm font-bold text-[#1B1B1F] truncate">
-                {data?.workingStylistsCount ?? 0} {t("on_duty")}
+                {tNumber(data?.workingStylistsCount ?? 0)} {t("on_duty")}
               </p>
             </div>
           </div>
@@ -192,7 +192,7 @@ export default function SalonHome() {
             <div className="bg-[#FAF8F5] border border-[#E4E1DC] p-4 rounded-xl text-center">
               <p className="text-sm font-medium text-muted">
                 {t("salon_closed_desc")}{" "}
-                {data?.salon?.openingTime || "09:00"}.
+                {tNumber(data?.salon?.openingTime || "09:00")}.
               </p>
             </div>
           ) : activeEntryId ? (

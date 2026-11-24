@@ -16,7 +16,7 @@ interface ServiceItem {
 
 export default function JoinQueue() {
   const router = useRouter();
-  const { t, tService } = useLanguage();
+  const { t, tService, tNumber } = useLanguage();
 
   const [services, setServices] = useState<ServiceItem[]>([]);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
@@ -115,11 +115,11 @@ export default function JoinQueue() {
                       <div className="flex items-center gap-3 sm:gap-4 mt-1.5 text-xs text-muted flex-wrap">
                         <span className="flex items-center gap-1 font-medium">
                           <Clock className="w-3.5 h-3.5 text-accent shrink-0" />
-                          <span>{service.durationMinutes} {t("mins")}</span>
+                          <span>{tNumber(service.durationMinutes)} {t("mins")}</span>
                         </span>
                         <span className="flex items-center gap-0.5 font-bold text-primary">
                           <IndianRupee className="w-3.5 h-3.5 shrink-0" />
-                          <span>{service.price}</span>
+                          <span>{tNumber(service.price)}</span>
                         </span>
                       </div>
                     </div>
@@ -145,14 +145,14 @@ export default function JoinQueue() {
           <div className="flex items-center justify-between text-sm">
             <span className="text-muted">{t("total_time")}:</span>
             <span className="font-bold text-[#1B1B1F]">
-              {totalDuration} {t("mins")}
+              {tNumber(totalDuration)} {t("mins")}
             </span>
           </div>
 
           <div className="flex items-center justify-between text-base">
             <span className="font-semibold text-[#1B1B1F]">{t("total_price")}:</span>
             <span className="font-extrabold text-xl text-primary flex items-center">
-              ₹{totalPrice}
+              ₹{tNumber(totalPrice)}
             </span>
           </div>
 
