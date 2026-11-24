@@ -335,3 +335,63 @@ This document contains the complete, chronological record of every prompt given 
   - Added persistent on-demand restart triggers in Header navigation, mobile menu drawer, and floating action button.
   - Created automated SaaS video generator `scripts/create-saas-demo-video.mjs` synthesizing voiceover audio, layered with subtle ambient harmonic synth music (`amix`), and capturing genuine mobile interactions at 1080×1920 Full HD.
   - Produced and published new 142.6s (8.94 MB) MP4 video (`demo-video.mp4` / `public/demo-video.mp4`) and tagged release `v1.1.0`.
+
+---
+
+### Prompt 15 (Video Speed & Pacing)
+* **Date & Time**: 2026-11-24 22:15:00 IST
+* **Raw Prompt**:
+  ```text
+  speed is slow
+  ```
+* **Intent**: Optimize video pacing and speed up interaction transitions across scenes.
+* **Result**:
+  - Tightened transition delays from 3.5s to 2.0s per interaction.
+  - Adjusted frame duration pacing and optimized API polling queries.
+
+---
+
+### Prompt 16 (Review Alignment Issues & Re-record Aligned Demo Video)
+* **Date & Time**: 2026-11-24 22:30:00 IST
+* **Raw Prompt**:
+  ```text
+  Act as a Professional Video Editor, Screen Recording Specialist, and UI/UX Quality Assurance Engineer.
+
+  I want you to review and fix the alignment issues in my existing website demo screen recording. Some elements currently appear misaligned, incorrectly positioned, clipped, or inconsistent during the recording.
+
+  1. Screen Recording Alignment
+  - All elements properly aligned within the mobile viewport.
+  - Text, headings, buttons, images, cards, and icons positioned correctly with no overlapping or clipping.
+  - Tooltips, dropdowns, and onboarding tour highlights align with their elements.
+
+  2. Mobile Viewport Consistency
+  - Maintain consistent smartphone screen size throughout the recording.
+  - Full interface visible without unwanted cropping or stretching.
+
+  3. Website UI Fixes
+  - Fix any underlying padding, margins, positioning, or responsive breakpoints.
+
+  4. Recording Quality
+  - Re-record the affected sections after fixing the issues.
+  ```
+* **Intent**: Eliminate element clipping, fix onboarding tooltip overlap collisions, replace wide staff table with mobile card layout, and re-record a 1080×1920 mobile demo video using studio smartphone device framing.
+* **Result**:
+  - Identified root causes: in-page bottom banner covering action buttons, tooltip static bottom placement colliding with bottom elements, and wide staff queue table overflowing horizontally on smartphones.
+  - Implemented dynamic top/bottom placement in `src/components/OnboardingTour.tsx` (`isTargetInBottomHalf` check).
+  - Added responsive mobile cards (`sm:hidden divide-y divide-[#E4E1DC]`) in `src/app/staff/queue/page.tsx`.
+  - Built `scripts/create-aligned-demo-video.mjs` with Studio Smartphone Frame (phone bezel, notch, drop shadow, and lower-third captions placed outside the phone screen).
+
+---
+
+### Prompt 17 (Re-recording Verification)
+* **Date & Time**: 2026-11-24 23:20:32 IST
+* **Raw Prompt**:
+  ```text
+  did you record again
+  ```
+* **Intent**: Inquire if the demo video has been re-recorded with the alignment and layout fixes applied.
+* **Result**:
+  - Executed `scripts/create-aligned-demo-video.mjs` through all 6 scenes.
+  - Verified 1080×1920 Full HD MP4 video (`130.2s`, 5.32 MB) with zero element overlaps, crisp typography, and full UI visibility.
+  - Updated `./demo-video.mp4` and `./public/demo-video.mp4`.
+  - Created and published GitHub release `v1.2.0` with downloadable asset.
