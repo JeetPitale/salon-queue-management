@@ -429,3 +429,17 @@ This document contains the complete, chronological record of every prompt given 
   - Updated the top header in `README.md` with the verified production URL.
   - Updated GitHub repository homepage with the live demo link.
   - Committed and pushed to GitHub `main`.
+
+---
+
+### Prompt 20 (Backend Architecture & Render Clarification)
+* **Date & Time**: 2026-11-24 23:53:20 IST
+* **Raw Prompt**:
+  ```text
+  should i have to upload anything on render ??
+  ```
+* **Intent**: Clarify whether a separate backend deployment on Render is necessary or if the Next.js full-stack architecture on Vercel handles both frontend and backend APIs.
+* **Result**:
+  - Confirmed that Next.js App Router runs unified full-stack architecture: all REST API endpoints (`/api/*`) and Server-Sent Events (`/api/live`) run directly on Vercel as serverless functions.
+  - No separate deployment on Render is required.
+  - Verified that Vercel is actively executing backend Prisma queries, requiring only the Neon `DATABASE_URL` environment variable.
