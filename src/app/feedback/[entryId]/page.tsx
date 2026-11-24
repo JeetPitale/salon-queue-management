@@ -70,7 +70,7 @@ export default function CustomerFeedback({
                   href="/"
                   className="inline-flex items-center gap-2 bg-primary hover:bg-[#182e4c] text-white font-bold py-3 px-6 rounded-xl text-sm"
                 >
-                  <span>Back to Home</span>
+                  <span>{t("back_to_home")}</span>
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
@@ -82,7 +82,7 @@ export default function CustomerFeedback({
                   {t("rate_experience")}
                 </h1>
                 <p className="text-sm text-muted mt-1">
-                  How was your service with us today?
+                  {t("rate_subtitle")}
                 </p>
               </div>
 
@@ -115,22 +115,22 @@ export default function CustomerFeedback({
                 </div>
 
                 <div className="text-center font-bold text-base text-primary">
-                  {rating === 5 && "Excellent! ⭐⭐⭐⭐⭐"}
-                  {rating === 4 && "Very Good! ⭐⭐⭐⭐"}
-                  {rating === 3 && "Good ⭐⭐⭐"}
-                  {rating === 2 && "Fair ⭐⭐"}
-                  {rating === 1 && "Poor ⭐"}
+                  {rating === 5 && t("rating_5")}
+                  {rating === 4 && t("rating_4")}
+                  {rating === 3 && t("rating_3")}
+                  {rating === 2 && t("rating_2")}
+                  {rating === 1 && t("rating_1")}
                 </div>
 
                 <div>
                   <label className="block text-xs font-semibold text-muted uppercase tracking-wider mb-2">
-                    Optional Comments
+                    {t("optional_comments")}
                   </label>
                   <textarea
                     rows={4}
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
-                    placeholder="Tell us what you liked or how we can improve..."
+                    placeholder={t("comments_placeholder")}
                     className="w-full bg-[#FAF8F5] border border-[#E4E1DC] focus:border-primary rounded-xl p-3 text-sm text-[#1B1B1F] outline-none transition-colors"
                   />
                 </div>

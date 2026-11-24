@@ -111,7 +111,7 @@ export default function SalonHome() {
             <button
               onClick={fetchSalon}
               className="p-1.5 text-muted hover:text-primary transition-colors"
-              title="Refresh"
+              title={t("refresh")}
             >
               <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
             </button>
@@ -165,10 +165,10 @@ export default function SalonHome() {
             <div className="bg-white p-4 rounded-xl border border-[#E4E1DC]">
               <div className="flex items-center gap-2 text-primary mb-1">
                 <Users className="w-4 h-4 text-accent" />
-                <span className="text-xs font-semibold">Active Stylists</span>
+                <span className="text-xs font-semibold">{t("active_stylists")}</span>
               </div>
               <p className="text-sm font-bold text-[#1B1B1F]">
-                {data?.workingStylistsCount ?? 0} on duty
+                {data?.workingStylistsCount ?? 0} {t("on_duty")}
               </p>
             </div>
           </div>
@@ -176,11 +176,11 @@ export default function SalonHome() {
           {/* Public Display & Kiosk Links for convenience */}
           <div className="flex items-center justify-center gap-4 pt-2 text-xs text-muted">
             <Link href="/display" className="hover:text-primary underline">
-              Salon TV Display
+              {t("salon_display")}
             </Link>
             <span>•</span>
             <Link href="/kiosk" className="hover:text-primary underline">
-              Entrance Kiosk Mode
+              {t("kiosk_mode")}
             </Link>
           </div>
         </div>
@@ -190,7 +190,7 @@ export default function SalonHome() {
           {!isOpen ? (
             <div className="bg-[#FAF8F5] border border-[#E4E1DC] p-4 rounded-xl text-center">
               <p className="text-sm font-medium text-muted">
-                The salon is currently closed. Opens tomorrow at{" "}
+                {t("salon_closed_desc")}{" "}
                 {data?.salon?.openingTime || "09:00"}.
               </p>
             </div>

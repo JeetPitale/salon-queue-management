@@ -16,7 +16,7 @@ interface ServiceItem {
 
 export default function JoinQueue() {
   const router = useRouter();
-  const { t } = useLanguage();
+  const { t, tService } = useLanguage();
 
   const [services, setServices] = useState<ServiceItem[]>([]);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
@@ -50,7 +50,7 @@ export default function JoinQueue() {
 
   const handleContinue = () => {
     if (selectedIds.length === 0) {
-      setErrorMsg("Please select at least one service to continue");
+      setErrorMsg(t("select_at_least_one"));
       return;
     }
 
@@ -77,7 +77,7 @@ export default function JoinQueue() {
           <div>
             <h1 className="text-2xl font-bold text-primary">{t("select_services")}</h1>
             <p className="text-sm text-muted">
-              Choose one or more services for your turn today.
+              {t("select_service_subtitle")}
             </p>
           </div>
 
@@ -110,7 +110,7 @@ export default function JoinQueue() {
                   >
                     <div className="flex-1 pr-3">
                       <h3 className="font-semibold text-base text-[#1B1B1F]">
-                        {service.name}
+                        {tService(service.name)}
                       </h3>
                       <div className="flex items-center gap-4 mt-1.5 text-xs text-muted">
                         <span className="flex items-center gap-1 font-medium">

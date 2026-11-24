@@ -2,7 +2,9 @@
 
 import React, { useState, useEffect } from "react";
 import { StatusBadge } from "@/components/StatusBadge";
-import { Scissors, Clock, Users, Volume2, VolumeX, Sparkles } from "lucide-react";
+import { useLanguage } from "@/components/LanguageContext";
+import { Language } from "@/lib/i18n";
+import { Scissors, Clock, Users, Volume2, VolumeX, Sparkles, Globe } from "lucide-react";
 
 interface DisplayEntry {
   id: string;
@@ -17,6 +19,8 @@ interface DisplayEntry {
 }
 
 export default function PublicDisplayBoard() {
+  const { language, setLanguage, t, tService } = useLanguage();
+
   const [entries, setEntries] = useState<DisplayEntry[]>([]);
   const [salonName, setSalonName] = useState("Velvet & Blade Salon");
   const [currentTime, setCurrentTime] = useState("");
@@ -117,21 +121,39 @@ export default function PublicDisplayBoard() {
 
   return (
     <div className="min-h-screen bg-[#1F3A5F] text-white flex flex-col font-sans select-none overflow-hidden">
-      {/* Top Banner: Salon Name, Clock, Chime Toggle */}
+      {/* Top Banner: Salon Name, Clock, Chime Toggle & Language Selector */}
       <header className="bg-[#14263E] border-b border-white/10 px-8 py-5 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 rounded-xl bg-accent flex items-center justify-center text-white shadow-md">
             <Scissors className="w-7 h-7" />
           </div>
           <div>
-            <h1 className="text-3xl font-black tracking-tight">{salonName}</h1>
+            <h1 className="text-3xl font-black tracking-tight">{t("salon_name")}</h1>
             <p className="text-xs text-white/70 uppercase tracking-widest">
-              Live Queue Display
+              {t("display_subtitle")}
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-8">
+        <div className="flex items-center gap-6">
+          {/* Language Buttons */}
+          <div className="flex items-center gap-1 bg-white/10 p-1 rounded-xl border border-white/10">
+            <Globe className="w-4 h-4 text-white/60 ml-1.5 mr-1" />
+            {(["en", "hi", "gu"] as Language[]).map((lang) => (
+              <button
+                key={lang}
+                onClick={() => setLanguage(lang)}
+                className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${
+                  language === lang
+                    ? "bg-accent text-white shadow-md"
+                    : "text-white/70 hover:text-white"
+                }`}
+              >
+                {lang === "en" ? "EN" : lang === "hi" ? "हिंदी" : "ગુજરાતી"}
+              </button>
+            ))}
+          </div>
+
           <div className="flex items-center gap-2 bg-white/10 px-5 py-2 rounded-xl border border-white/10">
             <Clock className="w-5 h-5 text-accent" />
             <span className="text-2xl font-mono font-bold tracking-wider">
@@ -160,10 +182,10 @@ export default function PublicDisplayBoard() {
           <div className="flex items-center justify-between border-b border-white/20 pb-3">
             <h2 className="text-2xl font-black tracking-wide flex items-center gap-3">
               <span className="w-3.5 h-3.5 rounded-full bg-[#2D6A1F] animate-ping" />
-              <span>NOW SERVING</span>
+              <span>{t("now_serving")}</span>
             </h2>
             <span className="text-sm font-semibold text-white/70">
-              {nowServing.length} in chairs
+              {nowServing.length} {t("in_chairs")}
             </span>
           </div>
 
@@ -171,7 +193,7 @@ export default function PublicDisplayBoard() {
             <div className="flex-1 bg-white/5 rounded-3xl border border-white/10 flex flex-col items-center justify-center p-8 text-center">
               <Sparkles className="w-16 h-16 text-white/30 mb-3" />
               <p className="text-2xl font-bold text-white/60">
-                Chairs are ready. Next customers being called!
+                {t("chairs_ready")}
               </p>
             </div>
           ) : (
@@ -192,7 +214,7 @@ export default function PublicDisplayBoard() {
                         <StatusBadge status={item.status} size="md" />
                         {isCalled && (
                           <span className="text-xs font-black uppercase text-[#1F5FA8] tracking-wider">
-                            Proceed to Chair
+                            {t("proceed_chair_ticker")}
                           </span>
                         )}
                       </div>
@@ -208,9 +230,9 @@ export default function PublicDisplayBoard() {
                     </div>
 
                     <div className="pt-4 border-t border-black/10 flex items-center justify-between text-sm">
-                      <span className="text-xs font-semibold opacity-70">Stylist:</span>
+                      <span className="text-xs font-semibold opacity-70">{t("assigned_stylist")}:</span>
                       <span className="font-bold">
-                        {item.assignedStaff?.name || "Available"}
+                        {item.assignedStaff?.name || t("available")}
                       </span>
                     </div>
                   </div>
@@ -225,18 +247,18 @@ export default function PublicDisplayBoard() {
           <div className="flex items-center justify-between border-b border-white/20 pb-3">
             <h2 className="text-2xl font-black tracking-wide flex items-center gap-3">
               <Users className="w-6 h-6 text-accent" />
-              <span>NEXT UP</span>
+              <span>{t("next_up")}</span>
             </h2>
             <div className="flex items-center gap-2 text-sm font-semibold text-accent">
               <Clock className="w-4 h-4" />
-              <span>Avg Wait: {avgWait}m</span>
+              <span>{t("average_wait")}: {avgWait}m</span>
             </div>
           </div>
 
           <div className="flex-1 bg-white/5 rounded-3xl border border-white/10 p-4 overflow-y-auto space-y-3">
             {nextUp.length === 0 ? (
               <div className="h-full flex items-center justify-center text-center p-6 text-white/50">
-                <p className="text-lg">No one currently waiting.</p>
+                <p className="text-lg">{t("no_waiting_display")}</p>
               </div>
             ) : (
               nextUp.slice(0, 7).map((item, idx) => (
@@ -255,7 +277,7 @@ export default function PublicDisplayBoard() {
                       {/* First name only (Rule D1) */}
                       <p className="text-xl font-bold">{getFirstName(item.customerName)}</p>
                       <p className="text-xs text-white/70">
-                        {item.services.map((s) => s.name).join(", ")}
+                        {item.services.map((s) => tService(s.name)).join(", ")}
                       </p>
                     </div>
                   </div>
@@ -264,7 +286,7 @@ export default function PublicDisplayBoard() {
                     <span className="text-lg font-black text-accent">
                       ~{item.estimatedWaitMinutes}m
                     </span>
-                    <p className="text-xs text-white/50">est. wait</p>
+                    <p className="text-xs text-white/50">{t("est_wait")}</p>
                   </div>
                 </div>
               ))
@@ -275,8 +297,8 @@ export default function PublicDisplayBoard() {
 
       {/* Bottom Ticker */}
       <footer className="bg-[#14263E] border-t border-white/10 px-8 py-3 flex items-center justify-between text-xs text-white/60">
-        <span>Phone numbers are masked for privacy • Live tracking enabled</span>
-        <span>Auto-refreshes every 2 seconds</span>
+        <span>{t("privacy_notice")}</span>
+        <span>{t("auto_refreshes")}</span>
       </footer>
     </div>
   );

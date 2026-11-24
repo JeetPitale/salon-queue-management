@@ -138,12 +138,12 @@ export default function OtpVerification() {
         <div className="space-y-6">
           <div>
             <h1 className="text-2xl font-bold text-primary">
-              {step === "phone" ? t("enter_details") : "Enter OTP Code"}
+              {step === "phone" ? t("enter_details") : t("otp_title")}
             </h1>
             <p className="text-sm text-muted">
               {step === "phone"
-                ? "We'll send a 6-digit verification code to confirm your turn."
-                : `Enter the 6-digit code sent to +91 ${phone}`}
+                ? t("otp_details_sub")
+                : `${t("otp_sent_to")} +91 ${phone}`}
             </p>
           </div>
 
@@ -195,7 +195,7 @@ export default function OtpVerification() {
                 disabled={loading}
                 className="w-full min-h-[48px] bg-primary hover:bg-[#182e4c] text-white font-bold py-3.5 px-6 rounded-xl flex items-center justify-center gap-2 text-base shadow-sm transition-all active:scale-[0.98] mt-6"
               >
-                <span>{loading ? "Sending..." : "Send Verification Code"}</span>
+                <span>{loading ? t("sending") : t("send_code")}</span>
                 <ArrowRight className="w-5 h-5" />
               </button>
             </form>
@@ -203,13 +203,13 @@ export default function OtpVerification() {
             <form onSubmit={handleVerifyAndJoin} className="space-y-4">
               {demoOtp && (
                 <div className="bg-[#DCE9F7] border border-[#1F5FA8]/30 p-3 rounded-xl text-xs text-[#1F5FA8] flex items-center justify-between">
-                  <span>Demo OTP code: <strong>{demoOtp}</strong></span>
+                  <span>{t("demo_otp_code")} <strong>{demoOtp}</strong></span>
                   <button
                     type="button"
                     onClick={() => setOtp(demoOtp)}
                     className="underline font-semibold"
                   >
-                    Auto-fill
+                    {t("autofill")}
                   </button>
                 </div>
               )}
@@ -235,9 +235,9 @@ export default function OtpVerification() {
               </div>
 
               <div className="flex items-center justify-between text-xs text-muted pt-1">
-                <span>Didn&apos;t receive code?</span>
+                <span>{t("didnt_receive_code")}</span>
                 {resendSeconds > 0 ? (
-                  <span>Resend in {resendSeconds}s</span>
+                  <span>{t("resend_in")} {resendSeconds}s</span>
                 ) : (
                   <button
                     type="button"
@@ -258,7 +258,7 @@ export default function OtpVerification() {
                     : "bg-[#E4E1DC] text-muted cursor-not-allowed"
                 }`}
               >
-                <span>{loading ? "Verifying..." : t("verify_otp")}</span>
+                <span>{loading ? t("verifying") : t("verify_otp")}</span>
                 <ShieldCheck className="w-5 h-5" />
               </button>
 
@@ -267,7 +267,7 @@ export default function OtpVerification() {
                 onClick={() => setStep("phone")}
                 className="w-full text-center text-xs text-muted hover:text-primary mt-2"
               >
-                Change mobile number
+                {t("change_number")}
               </button>
             </form>
           )}

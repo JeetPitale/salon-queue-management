@@ -46,7 +46,7 @@ export default function TokenLiveTracking({
   params: { entryId: string };
 }) {
   const { entryId } = params;
-  const { t } = useLanguage();
+  const { t, tService } = useLanguage();
 
   const [data, setData] = useState<EntryDetails | null>(null);
   const [loading, setLoading] = useState(true);
@@ -151,15 +151,15 @@ export default function TokenLiveTracking({
         <Header />
         <main className="flex-1 max-w-md w-full mx-auto p-6 text-center space-y-4">
           <AlertTriangle className="w-12 h-12 text-accent mx-auto" />
-          <h2 className="text-xl font-bold text-primary">Token Not Found</h2>
+          <h2 className="text-xl font-bold text-primary">{t("token_not_found")}</h2>
           <p className="text-sm text-muted">
-            The requested queue token could not be loaded.
+            {t("token_not_found_desc")}
           </p>
           <Link
             href="/"
             className="inline-block bg-primary text-white font-bold py-2.5 px-6 rounded-xl text-sm"
           >
-            Return Home
+            {t("return_home")}
           </Link>
         </main>
       </div>
@@ -194,7 +194,7 @@ export default function TokenLiveTracking({
       {isWaiting && data.position <= 2 && (
         <div className="bg-[#DCE9F7] border-b border-[#1F5FA8]/20 text-[#1F5FA8] py-2 px-4 text-center text-xs font-bold flex items-center justify-center gap-1.5">
           <Sparkles className="w-4 h-4 text-accent" />
-          <span>Your turn is very close! Please be at the salon.</span>
+          <span>{t("turn_close_alert")}</span>
         </div>
       )}
 
@@ -238,7 +238,7 @@ export default function TokenLiveTracking({
             {/* In-service note */}
             {data.status === "IN_SERVICE" && (
               <p className="text-xs text-muted mt-3">
-                Service currently in progress with {data.assignedStaff?.name || "your stylist"}.
+                {t("service_in_progress_with")} {data.assignedStaff?.name || "stylist"}.
               </p>
             )}
           </div>
@@ -277,10 +277,10 @@ export default function TokenLiveTracking({
             <div className="bg-[#D9EAD3]/40 border border-[#2D6A1F]/30 rounded-2xl p-6 text-center space-y-3">
               <CheckCircle2 className="w-12 h-12 text-[#2D6A1F] mx-auto" />
               <h3 className="font-bold text-lg text-[#2D6A1F]">
-                Service Completed!
+                {t("service_completed_title")}
               </h3>
               <p className="text-xs text-muted">
-                Thank you for visiting {data.salon.name}. We hope you had a wonderful time!
+                {t("thank_you_hope_great")}
               </p>
               <Link
                 href={`/feedback/${data.id}`}
@@ -295,13 +295,13 @@ export default function TokenLiveTracking({
           {/* Selected Services List */}
           <div className="bg-white rounded-xl border border-[#E4E1DC] p-4 space-y-3">
             <h4 className="text-xs font-bold text-muted uppercase tracking-wider">
-              Selected Services
+              {t("selected_services_title")}
             </h4>
             <div className="divide-y divide-[#E4E1DC]">
               {data.services.map((s) => (
                 <div key={s.id} className="py-2 flex items-center justify-between text-sm">
                   <div>
-                    <span className="font-medium text-[#1B1B1F]">{s.name}</span>
+                    <span className="font-medium text-[#1B1B1F]">{tService(s.name)}</span>
                     <span className="text-xs text-muted ml-2">({s.durationMinutes} {t("mins")})</span>
                   </div>
                   <span className="font-bold text-primary">₹{s.price}</span>
@@ -328,7 +328,7 @@ export default function TokenLiveTracking({
               href="/"
               className="w-full min-h-[48px] bg-primary text-white font-bold py-3 px-6 rounded-xl flex items-center justify-center gap-2 text-sm"
             >
-              Return Home
+              {t("return_home")}
             </Link>
           )}
         </div>
@@ -338,23 +338,23 @@ export default function TokenLiveTracking({
       {cancelModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl max-w-sm w-full p-6 space-y-4 border border-[#E4E1DC] shadow-xl">
-            <h3 className="font-bold text-lg text-primary">Cancel Turn</h3>
+            <h3 className="font-bold text-lg text-primary">{t("cancel_queue")}</h3>
             <p className="text-sm text-muted">
-              {t("cancel_confirm")} Your token number will be permanently released.
+              {t("cancel_confirm")} {t("cancel_modal_desc")}
             </p>
             <div className="flex items-center gap-3 pt-2">
               <button
                 onClick={() => setCancelModalOpen(false)}
                 className="flex-1 py-2.5 rounded-xl border border-[#E4E1DC] font-semibold text-sm text-[#1B1B1F]"
               >
-                Keep Turn
+                {t("keep_turn")}
               </button>
               <button
                 onClick={handleCancel}
                 disabled={cancelling}
                 className="flex-1 py-2.5 rounded-xl bg-[#8B1A1A] hover:bg-[#701515] text-white font-bold text-sm"
               >
-                {cancelling ? "Cancelling..." : "Yes, Cancel"}
+                {cancelling ? t("cancelling") : t("yes_cancel")}
               </button>
             </div>
           </div>

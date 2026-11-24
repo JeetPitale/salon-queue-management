@@ -24,7 +24,7 @@ interface ServiceItem {
 }
 
 export default function KioskCheckIn() {
-  const { language, setLanguage, t } = useLanguage();
+  const { language, setLanguage, t, tService } = useLanguage();
 
   const [step, setStep] = useState<"welcome" | "services" | "phone" | "otp" | "token">("welcome");
   const [services, setServices] = useState<ServiceItem[]>([]);
@@ -200,7 +200,7 @@ export default function KioskCheckIn() {
           </div>
           <div>
             <h1 className="text-2xl font-black tracking-tight">{t("salon_name")}</h1>
-            <p className="text-xs text-white/70">Self-Service Check-In Kiosk</p>
+            <p className="text-xs text-white/70">{t("kiosk_tagline")}</p>
           </div>
         </div>
 
@@ -230,7 +230,7 @@ export default function KioskCheckIn() {
               className="min-h-[56px] px-4 rounded-xl bg-white/10 hover:bg-white/20 text-white text-sm font-semibold flex items-center gap-1.5 ml-2"
             >
               <RotateCcw className="w-4 h-4" />
-              <span>Reset</span>
+              <span>{t("reset")}</span>
             </button>
           )}
         </div>
@@ -253,7 +253,7 @@ export default function KioskCheckIn() {
 
             <div className="space-y-3">
               <h2 className="text-4xl font-extrabold text-primary">
-                Welcome to {t("salon_name")}
+                {t("welcome_to")} {t("salon_name")}
               </h2>
               <p className="text-xl text-muted max-w-lg mx-auto">
                 {t("kiosk_welcome")}
@@ -280,7 +280,7 @@ export default function KioskCheckIn() {
               <h2 className="text-3xl font-extrabold text-primary">
                 {t("select_services")}
               </h2>
-              <p className="text-base text-muted mt-1">Tap one or more services you want today</p>
+              <p className="text-base text-muted mt-1">{t("kiosk_services_sub")}</p>
             </div>
 
             <div className="grid grid-cols-2 gap-4 max-h-[50vh] overflow-y-auto p-2">
@@ -300,7 +300,7 @@ export default function KioskCheckIn() {
                     }`}
                   >
                     <div>
-                      <h3 className="font-bold text-xl text-[#1B1B1F]">{s.name}</h3>
+                      <h3 className="font-bold text-xl text-[#1B1B1F]">{tService(s.name)}</h3>
                       <div className="flex items-center gap-4 mt-2 text-sm text-muted">
                         <span className="flex items-center gap-1">
                           <Clock className="w-4 h-4 text-accent" />
@@ -327,9 +327,9 @@ export default function KioskCheckIn() {
             <div className="bg-white border border-[#E4E1DC] rounded-2xl p-6 flex items-center justify-between shadow-md">
               <div className="space-y-1">
                 <p className="text-sm font-semibold text-muted">
-                  {selectedIds.length} service(s) chosen • {totalDuration} {t("mins")}
+                  {selectedIds.length} {t("service_chosen")} • {totalDuration} {t("mins")}
                 </p>
-                <p className="text-2xl font-black text-primary">Total: ₹{totalPrice}</p>
+                <p className="text-2xl font-black text-primary">{t("total_price")}: ₹{totalPrice}</p>
               </div>
 
               <button
@@ -396,7 +396,7 @@ export default function KioskCheckIn() {
                 disabled={loading}
                 className="w-full min-h-[64px] bg-primary hover:bg-[#182e4c] text-white font-black text-xl rounded-xl flex items-center justify-center gap-3 shadow-md mt-6"
               >
-                <span>{loading ? "Sending..." : "Send Verification Code"}</span>
+                <span>{loading ? t("sending") : t("send_code")}</span>
                 <ArrowRight className="w-6 h-6" />
               </button>
             </div>
@@ -407,18 +407,18 @@ export default function KioskCheckIn() {
         {step === "otp" && (
           <div className="max-w-lg mx-auto w-full bg-white p-8 rounded-3xl border border-[#E4E1DC] shadow-lg space-y-6">
             <h2 className="text-3xl font-extrabold text-primary text-center">
-              Enter 6-Digit OTP
+              {t("otp_title")}
             </h2>
-            <p className="text-center text-muted">Sent to +91 {phone}</p>
+            <p className="text-center text-muted">{t("otp_sent_to")} +91 {phone}</p>
 
             {demoOtp && (
               <div className="p-3 rounded-xl bg-[#DCE9F7] text-[#1F5FA8] text-sm font-bold flex items-center justify-between">
-                <span>Demo Code: {demoOtp}</span>
+                <span>{t("demo_otp_code")} {demoOtp}</span>
                 <button
                   onClick={() => setOtp(demoOtp)}
                   className="underline"
                 >
-                  Auto-fill
+                  {t("autofill")}
                 </button>
               </div>
             )}
@@ -444,7 +444,7 @@ export default function KioskCheckIn() {
                   : "bg-[#E4E1DC] text-muted cursor-not-allowed"
               }`}
             >
-              <span>{loading ? "Confirming..." : "Get Token"}</span>
+              <span>{loading ? t("verifying") : t("verify_otp")}</span>
               <Check className="w-6 h-6 stroke-[3]" />
             </button>
           </div>
@@ -455,12 +455,12 @@ export default function KioskCheckIn() {
           <div className="bg-white p-8 rounded-3xl border-2 border-accent/40 shadow-2xl max-w-xl mx-auto w-full text-center space-y-6 animate-fadeIn">
             <div className="inline-flex items-center gap-2 bg-[#D9EAD3] text-[#2D6A1F] px-4 py-1.5 rounded-full font-bold text-sm">
               <Check className="w-4 h-4 stroke-[3]" />
-              <span>You are in line!</span>
+              <span>{t("in_line_badge")}</span>
             </div>
 
             <div className="space-y-1">
               <p className="text-sm font-bold text-muted uppercase tracking-wider">
-                Your Token Number
+                {t("your_token_number")}
               </p>
               <div className="w-36 h-36 rounded-full bg-accent/15 border-4 border-accent text-primary flex items-center justify-center mx-auto shadow-inner">
                 <span className="text-7xl font-black tracking-tight">
@@ -493,12 +493,12 @@ export default function KioskCheckIn() {
 
             {/* 30s reset countdown (F2) */}
             <div className="pt-2 text-xs text-muted">
-              <span>This screen will reset in <strong>{countdown}s</strong></span>
+              <span>{t("reset_countdown_text")} <strong>{countdown}s</strong></span>
               <button
                 onClick={handleFullReset}
                 className="block mx-auto mt-2 text-primary font-bold hover:underline"
               >
-                Done / Next Customer
+                {t("done_next")}
               </button>
             </div>
           </div>
