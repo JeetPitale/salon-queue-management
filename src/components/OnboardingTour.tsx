@@ -249,6 +249,12 @@ export function OnboardingTour({
 
   const currentStep = steps[currentStepIndex];
 
+  // Smart placement: if target is in bottom half, show tooltip at top to avoid covering the element
+  const isTargetInBottomHalf =
+    targetRect && typeof window !== "undefined"
+      ? targetRect.top + targetRect.height / 2 > window.innerHeight / 2
+      : false;
+
   return (
     <>
       {/* 1. Welcoming Introduction Modal (Shown on First Visit) */}
@@ -299,7 +305,7 @@ export function OnboardingTour({
           {/* Backdrop darkened overlay with pointer events */}
           <div
             onClick={skipTour}
-            className="fixed inset-0 bg-black/50 backdrop-blur-[1px] pointer-events-auto transition-opacity duration-300"
+            className="fixed inset-0 bg-black/55 backdrop-blur-[1.5px] pointer-events-auto transition-opacity duration-300"
           />
 
           {/* Highlight ring around target element */}
@@ -307,18 +313,27 @@ export function OnboardingTour({
             <div
               style={{
                 position: "fixed",
-                top: Math.max(0, targetRect.top - 6),
-                left: Math.max(0, targetRect.left - 6),
-                width: targetRect.width + 12,
+                top: Math.max(6, targetRect.top - 6),
+                left: Math.max(6, targetRect.left - 6),
+                width: Math.min(
+                  typeof window !== "undefined" ? window.innerWidth - 12 : 400,
+                  targetRect.width + 12
+                ),
                 height: targetRect.height + 12,
                 borderRadius: 16,
               }}
-              className="pointer-events-none ring-4 ring-accent shadow-[0_0_30px_rgba(197,160,89,0.5)] z-[115] transition-all duration-300"
+              className="pointer-events-none ring-4 ring-accent shadow-[0_0_35px_rgba(197,160,89,0.6)] z-[115] transition-all duration-300"
             />
           )}
 
-          {/* Floating Tooltip Card */}
-          <div className="fixed inset-x-4 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 bottom-6 sm:bottom-10 max-w-sm sm:max-w-md w-full mx-auto pointer-events-auto z-[120] animate-in slide-in-from-bottom-4 duration-300">
+          {/* Floating Tooltip Card - Positioned adaptively at Top or Bottom to NEVER cover highlighted element */}
+          <div
+            className={`fixed inset-x-3 sm:inset-x-auto sm:left-1/2 sm:-translate-x-1/2 max-w-sm sm:max-w-md w-full mx-auto pointer-events-auto z-[120] transition-all duration-300 ${
+              isTargetInBottomHalf
+                ? "top-14 sm:top-16 animate-in slide-in-from-top-4"
+                : "bottom-6 sm:bottom-8 animate-in slide-in-from-bottom-4"
+            }`}
+          >
             <div className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 shadow-2xl border-2 border-accent/40 text-left relative overflow-hidden">
               <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-accent via-primary to-accent" />
 

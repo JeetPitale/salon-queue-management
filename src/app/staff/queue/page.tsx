@@ -374,139 +374,249 @@ export default function QueueBoard() {
                 <p className="text-xs mt-1">No customers waiting or in service.</p>
               </div>
             ) : (
-              <div className="overflow-x-auto">
-                <table className="w-full text-left text-sm">
-                  <thead className="bg-[#FAF8F5] border-b border-[#E4E1DC] text-xs font-bold text-muted uppercase">
-                    <tr>
-                      <th className="py-3 px-4">Token</th>
-                      <th className="py-3 px-4">Customer</th>
-                      <th className="py-3 px-4">Services</th>
-                      <th className="py-3 px-4">Wait</th>
-                      <th className="py-3 px-4">Status</th>
-                      <th className="py-3 px-4">Stylist</th>
-                      <th className="py-3 px-4 text-right">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-[#E4E1DC]">
-                    {displayedEntries.map((row) => {
-                      const isWaiting = row.status === "WAITING";
-                      const isCalled = row.status === "CALLED";
-                      const isInService = row.status === "IN_SERVICE";
+              <>
+                {/* Mobile Card View (< 640px) */}
+                <div className="sm:hidden divide-y divide-[#E4E1DC]">
+                  {displayedEntries.map((row) => {
+                    const isWaiting = row.status === "WAITING";
+                    const isCalled = row.status === "CALLED";
+                    const isInService = row.status === "IN_SERVICE";
 
-                      return (
-                        <tr
-                          key={row.id}
-                          className={`hover:bg-[#FAF8F5]/60 transition-colors ${
-                            isCalled ? "bg-[#DCE9F7]/25" : ""
-                          }`}
-                        >
-                          <td className="py-3 px-4 font-black text-lg text-primary">
-                            #{row.tokenNumber}
-                          </td>
+                    return (
+                      <div
+                        key={`mob-${row.id}`}
+                        className={`p-4 space-y-3 transition-colors ${
+                          isCalled ? "bg-[#DCE9F7]/25" : "bg-white"
+                        }`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="font-black text-xl text-primary">#{row.tokenNumber}</span>
+                          <StatusBadge status={row.status} size="sm" />
+                        </div>
 
-                          <td className="py-3 px-4">
-                            <p className="font-bold text-[#1B1B1F]">{row.customerName}</p>
-                            <p className="text-xs text-muted flex items-center gap-1 font-mono">
-                              <Phone className="w-3 h-3 text-muted/70" />
-                              {row.customerPhone}
-                            </p>
-                          </td>
+                        <div>
+                          <p className="font-bold text-sm text-[#1B1B1F]">{row.customerName}</p>
+                          <p className="text-xs text-muted flex items-center gap-1 font-mono mt-0.5">
+                            <Phone className="w-3 h-3 text-muted/70" />
+                            {row.customerPhone}
+                          </p>
+                        </div>
 
-                          <td className="py-3 px-4">
-                            <p className="font-medium text-xs text-[#1B1B1F]">
+                        <div className="flex items-center justify-between text-xs text-muted bg-[#FAF8F5] p-2 rounded-lg border border-[#E4E1DC]">
+                          <div>
+                            <span className="font-medium text-[#1B1B1F]">
                               {row.services.map((s) => s.name).join(", ")}
-                            </p>
-                            <span className="text-[10px] text-muted font-bold">
+                            </span>
+                            <span className="ml-1 text-[11px] font-bold text-accent">
                               ₹{row.services.reduce((sum, s) => sum + s.price, 0)}
                             </span>
-                          </td>
+                          </div>
+                          <div className="text-right">
+                            <span className="font-bold text-primary">{row.estimatedWaitMinutes}m wait</span>
+                            {row.assignedStaff && (
+                              <p className="text-[10px] text-muted">{row.assignedStaff.name}</p>
+                            )}
+                          </div>
+                        </div>
 
-                          <td className="py-3 px-4 text-xs font-bold text-primary">
-                            {row.estimatedWaitMinutes}m
-                          </td>
+                        {/* Mobile Action Buttons */}
+                        <div className="flex items-center gap-2 pt-1">
+                          {isWaiting && (
+                            <button
+                              onClick={() => {
+                                setCallModalEntry(row);
+                                if (staffUser?.role === "STYLIST") {
+                                  setSelectedStylistId(staffUser.id);
+                                } else {
+                                  setSelectedStylistId(stylists[0]?.id || "");
+                                }
+                              }}
+                              className="flex-1 py-2 rounded-lg bg-primary hover:bg-[#182e4c] text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm active:scale-95"
+                            >
+                              <Bell className="w-3.5 h-3.5" />
+                              <span>Call Next</span>
+                            </button>
+                          )}
 
-                          <td className="py-3 px-4">
-                            <StatusBadge status={row.status} size="sm" />
-                          </td>
+                          {isCalled && (
+                            <button
+                              onClick={() => handleAction("start", row.id)}
+                              className="flex-1 py-2 rounded-lg bg-[#6B3FA0] hover:opacity-90 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm active:scale-95"
+                            >
+                              <Play className="w-3.5 h-3.5" />
+                              <span>Start</span>
+                            </button>
+                          )}
 
-                          <td className="py-3 px-4 text-xs font-semibold text-muted">
-                            {row.assignedStaff ? row.assignedStaff.name : "—"}
-                          </td>
+                          {isInService && (
+                            <button
+                              onClick={() => handleAction("complete", row.id)}
+                              className="flex-1 py-2 rounded-lg bg-[#2D6A1F] hover:opacity-90 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm active:scale-95"
+                            >
+                              <CheckCircle className="w-3.5 h-3.5" />
+                              <span>Complete</span>
+                            </button>
+                          )}
 
-                          {/* Action Buttons strictly conforming to R3 */}
-                          <td className="py-3 px-4 text-right">
-                            <div className="flex items-center justify-end gap-1.5">
-                              {/* R3: WAITING -> CALLED */}
-                              {isWaiting && (
-                                <button
-                                  id="tour-staff-call-btn"
-                                  onClick={() => {
-                                    setCallModalEntry(row);
-                                    // Preselect current stylist if logged in as STYLIST
-                                    if (staffUser?.role === "STYLIST") {
-                                      setSelectedStylistId(staffUser.id);
-                                    } else {
-                                      setSelectedStylistId(stylists[0]?.id || "");
-                                    }
-                                  }}
-                                  className="px-3 py-1.5 rounded-lg bg-primary hover:bg-[#182e4c] text-white text-xs font-bold flex items-center gap-1 shadow-sm transition-transform active:scale-95"
-                                >
-                                  <Bell className="w-3.5 h-3.5" />
-                                  <span>Call Next</span>
-                                </button>
-                              )}
+                          {isCalled && (
+                            <button
+                              onClick={() => handleAction("no_show", row.id)}
+                              className="px-3 py-2 rounded-lg border border-[#8B1A1A]/40 text-[#8B1A1A] hover:bg-[#F4CCCC]/30 text-xs font-semibold"
+                            >
+                              No-show
+                            </button>
+                          )}
 
-                              {/* R3: CALLED -> IN_SERVICE */}
-                              {isCalled && (
-                                <button
-                                  onClick={() => handleAction("start", row.id)}
-                                  className="px-3 py-1.5 rounded-lg bg-[#6B3FA0] hover:opacity-90 text-white text-xs font-bold flex items-center gap-1 shadow-sm transition-transform active:scale-95"
-                                >
-                                  <Play className="w-3.5 h-3.5" />
-                                  <span>Start</span>
-                                </button>
-                              )}
+                          {(isWaiting || isCalled) && (
+                            <button
+                              onClick={() => handleAction("cancel", row.id)}
+                              className="p-2 rounded-lg text-muted hover:text-[#8B1A1A] hover:bg-[#F4CCCC]/30 transition-colors"
+                              title="Cancel Turn"
+                            >
+                              <XCircle className="w-4 h-4" />
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
 
-                              {/* R3: IN_SERVICE -> COMPLETED */}
-                              {isInService && (
-                                <button
-                                  onClick={() => handleAction("complete", row.id)}
-                                  className="px-3 py-1.5 rounded-lg bg-[#2D6A1F] hover:opacity-90 text-white text-xs font-bold flex items-center gap-1 shadow-sm transition-transform active:scale-95"
-                                >
-                                  <CheckCircle className="w-3.5 h-3.5" />
-                                  <span>Complete</span>
-                                </button>
-                              )}
+                {/* Desktop Table View (>= 640px) */}
+                <div className="hidden sm:block overflow-x-auto">
+                  <table className="w-full text-left text-sm">
+                    <thead className="bg-[#FAF8F5] border-b border-[#E4E1DC] text-xs font-bold text-muted uppercase">
+                      <tr>
+                        <th className="py-3 px-4">Token</th>
+                        <th className="py-3 px-4">Customer</th>
+                        <th className="py-3 px-4">Services</th>
+                        <th className="py-3 px-4">Wait</th>
+                        <th className="py-3 px-4">Status</th>
+                        <th className="py-3 px-4">Stylist</th>
+                        <th className="py-3 px-4 text-right">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-[#E4E1DC]">
+                      {displayedEntries.map((row) => {
+                        const isWaiting = row.status === "WAITING";
+                        const isCalled = row.status === "CALLED";
+                        const isInService = row.status === "IN_SERVICE";
 
-                              {/* R3: CALLED -> NO_SHOW */}
-                              {isCalled && (
-                                <button
-                                  onClick={() => handleAction("no_show", row.id)}
-                                  className="px-2.5 py-1.5 rounded-lg border border-[#8B1A1A]/40 text-[#8B1A1A] hover:bg-[#F4CCCC]/30 text-xs font-semibold"
-                                  title="Mark as No-Show"
-                                >
-                                  No-show
-                                </button>
-                              )}
+                        return (
+                          <tr
+                            key={row.id}
+                            className={`hover:bg-[#FAF8F5]/60 transition-colors ${
+                              isCalled ? "bg-[#DCE9F7]/25" : ""
+                            }`}
+                          >
+                            <td className="py-3 px-4 font-black text-lg text-primary">
+                              #{row.tokenNumber}
+                            </td>
 
-                              {/* R3: WAITING or CALLED -> CANCELLED */}
-                              {(isWaiting || isCalled) && (
-                                <button
-                                  onClick={() => handleAction("cancel", row.id)}
-                                  className="p-1.5 rounded-lg text-muted hover:text-[#8B1A1A] hover:bg-[#F4CCCC]/30 transition-colors"
-                                  title="Cancel Turn"
-                                >
-                                  <XCircle className="w-4 h-4" />
-                                </button>
-                              )}
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
+                            <td className="py-3 px-4">
+                              <p className="font-bold text-[#1B1B1F]">{row.customerName}</p>
+                              <p className="text-xs text-muted flex items-center gap-1 font-mono">
+                                <Phone className="w-3 h-3 text-muted/70" />
+                                {row.customerPhone}
+                              </p>
+                            </td>
+
+                            <td className="py-3 px-4">
+                              <p className="font-medium text-xs text-[#1B1B1F]">
+                                {row.services.map((s) => s.name).join(", ")}
+                              </p>
+                              <span className="text-[10px] text-muted font-bold">
+                                ₹{row.services.reduce((sum, s) => sum + s.price, 0)}
+                              </span>
+                            </td>
+
+                            <td className="py-3 px-4 text-xs font-bold text-primary">
+                              {row.estimatedWaitMinutes}m
+                            </td>
+
+                            <td className="py-3 px-4">
+                              <StatusBadge status={row.status} size="sm" />
+                            </td>
+
+                            <td className="py-3 px-4 text-xs font-semibold text-muted">
+                              {row.assignedStaff ? row.assignedStaff.name : "—"}
+                            </td>
+
+                            {/* Action Buttons strictly conforming to R3 */}
+                            <td className="py-3 px-4 text-right">
+                              <div className="flex items-center justify-end gap-1.5">
+                                {/* R3: WAITING -> CALLED */}
+                                {isWaiting && (
+                                  <button
+                                    id="tour-staff-call-btn"
+                                    onClick={() => {
+                                      setCallModalEntry(row);
+                                      // Preselect current stylist if logged in as STYLIST
+                                      if (staffUser?.role === "STYLIST") {
+                                        setSelectedStylistId(staffUser.id);
+                                      } else {
+                                        setSelectedStylistId(stylists[0]?.id || "");
+                                      }
+                                    }}
+                                    className="px-3 py-1.5 rounded-lg bg-primary hover:bg-[#182e4c] text-white text-xs font-bold flex items-center gap-1 shadow-sm transition-transform active:scale-95"
+                                  >
+                                    <Bell className="w-3.5 h-3.5" />
+                                    <span>Call Next</span>
+                                  </button>
+                                )}
+
+                                {/* R3: CALLED -> IN_SERVICE */}
+                                {isCalled && (
+                                  <button
+                                    onClick={() => handleAction("start", row.id)}
+                                    className="px-3 py-1.5 rounded-lg bg-[#6B3FA0] hover:opacity-90 text-white text-xs font-bold flex items-center gap-1 shadow-sm transition-transform active:scale-95"
+                                  >
+                                    <Play className="w-3.5 h-3.5" />
+                                    <span>Start</span>
+                                  </button>
+                                )}
+
+                                {/* R3: IN_SERVICE -> COMPLETED */}
+                                {isInService && (
+                                  <button
+                                    onClick={() => handleAction("complete", row.id)}
+                                    className="px-3 py-1.5 rounded-lg bg-[#2D6A1F] hover:opacity-90 text-white text-xs font-bold flex items-center gap-1 shadow-sm transition-transform active:scale-95"
+                                  >
+                                    <CheckCircle className="w-3.5 h-3.5" />
+                                    <span>Complete</span>
+                                  </button>
+                                )}
+
+                                {/* R3: CALLED -> NO_SHOW */}
+                                {isCalled && (
+                                  <button
+                                    onClick={() => handleAction("no_show", row.id)}
+                                    className="px-2.5 py-1.5 rounded-lg border border-[#8B1A1A]/40 text-[#8B1A1A] hover:bg-[#F4CCCC]/30 text-xs font-semibold"
+                                    title="Mark as No-Show"
+                                  >
+                                    No-show
+                                  </button>
+                                )}
+
+                                {/* R3: WAITING or CALLED -> CANCELLED */}
+                                {(isWaiting || isCalled) && (
+                                  <button
+                                    onClick={() => handleAction("cancel", row.id)}
+                                    className="p-1.5 rounded-lg text-muted hover:text-[#8B1A1A] hover:bg-[#F4CCCC]/30 transition-colors"
+                                    title="Cancel Turn"
+                                  >
+                                    <XCircle className="w-4 h-4" />
+                                  </button>
+                                )}
+                              </div>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </>
             )}
           </div>
         </div>
