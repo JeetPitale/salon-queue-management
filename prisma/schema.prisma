@@ -1,0 +1,197 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  ADMIN
+  RECEPTIONIST
+  STYLIST
+}
+
+enum StylistStatus {
+  AVAILABLE
+  BUSY
+  ON_BREAK
+  OFF_DUTY
+}
+
+enum QueueStatus {
+  WAITING
+  CALLED
+  IN_SERVICE
+  COMPLETED
+  NO_SHOW
+  CANCELLED
+}
+
+enum PaymentMethod {
+  CASH
+  UPI
+  CARD
+}
+
+model Salon {
+  id                 String       @id @default(cuid())
+  name               String
+  address            String
+  phone              String
+  openingTime        String       @default("09:00")
+  closingTime        String       @default("20:00")
+  gracePeriodMinutes Int          @default(10)
+  isOpen             Boolean      @default(true)
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+
+  services           Service[]
+  staff              Staff[]
+  queueEntries       QueueEntry[]
+  tokenCounters      DailyTokenCounter[]
+}
+
+model Service {
+  id              String             @id @default(cuid())
+  salonId         String
+  name            String
+  durationMinutes Int
+  price           Float
+  isActive        Boolean            @default(true)
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+
+  salon           Salon              @relation(fields: [salonId], references: [id], onDelete: Cascade)
+  staffSkills     StaffSkill[]
+  entryServices   QueueEntryService[]
+}
+
+model Staff {
+  id        String        @id @default(cuid())
+  salonId   String
+  name      String
+  username  String        @unique
+  password  String
+  role      Role          @default(STYLIST)
+  status    StylistStatus @default(AVAILABLE)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  salon        Salon        @relation(fields: [salonId], references: [id], onDelete: Cascade)
+  skills       StaffSkill[]
+  queueEntries QueueEntry[]
+}
+
+model StaffSkill {
+  staffId   String
+  serviceId String
+
+  staff   Staff   @relation(fields: [staffId], references: [id], onDelete: Cascade)
+  service Service @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@id([staffId, serviceId])
+}
+
+model Customer {
+  id        String       @id @default(cuid())
+  phone     String       @unique
+  name      String
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  queueEntries QueueEntry[]
+}
+
+model DailyTokenCounter {
+  salonId         String
+  tokenDate       String
+  lastTokenNumber Int    @default(0)
+
+  salon Salon @relation(fields: [salonId], references: [id], onDelete: Cascade)
+
+  @@id([salonId, tokenDate])
+}
+
+model QueueEntry {
+  id                   String        @id @default(cuid())
+  salonId              String
+  customerId           String
+  tokenNumber          Int
+  tokenDate            String
+  status               QueueStatus   @default(WAITING)
+  assignedStaffId      String?
+  estimatedWaitMinutes Int           @default(0)
+  calledAt             DateTime?
+  startedAt            DateTime?
+  completedAt          DateTime?
+  cancelledAt          DateTime?
+  cancellationReason   String?
+  isWalkIn             Boolean       @default(false)
+  createdAt            DateTime      @default(now())
+  updatedAt            DateTime      @updatedAt
+
+  salon         Salon               @relation(fields: [salonId], references: [id], onDelete: Cascade)
+  customer      Customer            @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  assignedStaff Staff?              @relation(fields: [assignedStaffId], references: [id], onDelete: SetNull)
+  services      QueueEntryService[]
+  payment       Payment?
+  feedback      Feedback?
+  notifications NotificationLog[]
+
+  @@unique([salonId, tokenDate, tokenNumber])
+}
+
+model QueueEntryService {
+  queueEntryId    String
+  serviceId       String
+  durationMinutes Int
+  price           Float
+
+  queueEntry QueueEntry @relation(fields: [queueEntryId], references: [id], onDelete: Cascade)
+  service    Service    @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@id([queueEntryId, serviceId])
+}
+
+model Payment {
+  id           String        @id @default(cuid())
+  queueEntryId String        @unique
+  amount       Float
+  method       PaymentMethod
+  paidAt       DateTime      @default(now())
+
+  queueEntry QueueEntry @relation(fields: [queueEntryId], references: [id], onDelete: Cascade)
+}
+
+model Feedback {
+  id           String   @id @default(cuid())
+  queueEntryId String   @unique
+  rating       Int
+  comment      String?
+  createdAt    DateTime @default(now())
+
+  queueEntry QueueEntry @relation(fields: [queueEntryId], references: [id], onDelete: Cascade)
+}
+
+model NotificationLog {
+  id           String   @id @default(cuid())
+  queueEntryId String
+  event        String
+  channel      String   @default("SMS")
+  status       String   @default("SENT")
+  content      String
+  createdAt    DateTime @default(now())
+
+  queueEntry QueueEntry @relation(fields: [queueEntryId], references: [id], onDelete: Cascade)
+}
+
+model OtpSession {
+  id        String   @id @default(cuid())
+  phone     String
+  otp       String
+  attempts  Int      @default(0)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+}
