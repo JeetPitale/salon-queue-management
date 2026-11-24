@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { AdminNav } from "@/components/AdminNav";
+import { OnboardingTour } from "@/components/OnboardingTour";
 import {
   Users,
   Clock,
@@ -112,6 +113,7 @@ export default function ReportsDashboard() {
             </button>
 
             <button
+              id="tour-admin-export"
               onClick={handleExportCSV}
               className="px-3.5 sm:px-4 py-2 rounded-xl bg-primary hover:bg-[#182e4c] text-white font-bold text-xs flex items-center gap-2 shadow-sm transition-transform active:scale-95"
             >
@@ -122,7 +124,7 @@ export default function ReportsDashboard() {
         </div>
 
         {/* 5 Key Metric Cards (A4 Spec) */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+        <div id="tour-admin-metrics" className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
           <div className="bg-white p-4 sm:p-5 rounded-2xl border border-[#E4E1DC] shadow-sm">
             <div className="flex items-center justify-between text-muted mb-1.5 sm:mb-2">
               <span className="text-[11px] sm:text-xs font-bold uppercase tracking-wider">Footfall</span>
@@ -227,6 +229,9 @@ export default function ReportsDashboard() {
           </div>
         </div>
       </main>
+
+      {/* Admin Management Onboarding Tour */}
+      <OnboardingTour role="admin" />
     </div>
   );
 }

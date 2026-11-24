@@ -68,7 +68,7 @@ export function AdminNav() {
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-1 text-sm font-semibold">
+          <nav id="tour-admin-nav" className="hidden lg:flex items-center gap-1 text-sm font-semibold">
             {links.map((link) => {
               const Icon = link.icon;
               const isActive = pathname === link.href;

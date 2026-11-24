@@ -300,4 +300,38 @@ This document contains the complete, chronological record of every prompt given 
     4. Staff Console & Waiting Area Salon TV Display
     5. End-to-End Workflow (Walk-in, UPI Checkout, 5-Star Feedback Form)
     6. Entrance Touch Kiosk, Admin Reports & Project Submission Conclusion
-  - Encoded and concatenated final Full HD vertical MP4 video: `demo-video.mp4` (root) and `public/demo-video.mp4` (147.2s, 1080×1920, 12.84 MB).
+---
+
+## 10. Interactive Onboarding Tour & Professional SaaS Video
+
+### Prompt #14 — Interactive User Tour & SaaS Advertisement Video
+* **Timestamp**: `2026-11-24T16:18:41Z` (`21:48:41 IST`)
+* **Prompt**:
+  ```text
+  Act as a Senior UI/UX Designer, Product Experience Designer, and Professional Demo Video Creator.
+
+  I want you to improve my existing website by adding an interactive onboarding tour for new users and creating a completely new, more attractive and engaging mobile demo video.
+
+  1. Improve the Website with an Interactive User Tour
+  - Display a welcoming introduction when a new user visits for the first time.
+  - "Take a Tour" / "Explore Website" button.
+  - Guide users step-by-step with small tooltips, Next, Previous, Skip, Finish, and progress indicator.
+  - Allow users to restart the tour anytime.
+  - Multi-role walkthroughs for customers, staff, and administrators.
+
+  2. Create a Completely New and Attractive Demo Video
+  - Professional SaaS product advertisement combined with real application walkthrough.
+  - Duration: ~3 minutes, Vertical 9:16 (1080x1920 Full HD).
+  - Include interactive tour, ambient background music, and voiceover narration.
+  ```
+* **Intent**: Enhance user experience with a native interactive onboarding tour system across roles and create a brand-new SaaS-style 1080×1920 mobile demo video with ambient background music and voiceover.
+* **Result**:
+  - Implemented `src/components/OnboardingTour.tsx` with welcoming modal, element spotlight ring, floating tooltip card, progress dots, and celebration modal.
+  - Integrated role-specific tours:
+    - Customer Tour (`/`): Real-time wait card, queue stats, join queue button, trilingual language switcher, and staff portal access.
+    - Staff Tour (`/staff/queue`): Live queue roster, skill-matched dispatching, stylist availability panel, and walk-in/payment actions.
+    - Admin Tour (`/admin/reports`): Performance metrics, management navigation, and CSV exports.
+  - Added full trilingual localization for all tour strings in `src/lib/i18n.ts` (English, Hindi, and Gujarati).
+  - Added persistent on-demand restart triggers in Header navigation, mobile menu drawer, and floating action button.
+  - Created automated SaaS video generator `scripts/create-saas-demo-video.mjs` synthesizing voiceover audio, layered with subtle ambient harmonic synth music (`amix`), and capturing genuine mobile interactions at 1080×1920 Full HD.
+  - Produced and published new 142.6s (8.94 MB) MP4 video (`demo-video.mp4` / `public/demo-video.mp4`) and tagged release `v1.1.0`.

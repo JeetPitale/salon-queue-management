@@ -1,7 +1,7 @@
 # Salon Queue Management System
 *Live demo:* https://velvet-and-blade.vercel.app *(Alternative Vercel domain: https://salon-queue-management.vercel.app)*  
 *Hosted on:* Vercel (Frontend & Serverless API) + Neon (Cloud PostgreSQL)  
-*Mobile Demo Video (1080×1920 Full HD MP4):* [demo-video.mp4](demo-video.mp4) *(GitHub Release Download: https://github.com/JeetPitale/salon-queue-management/releases/download/v1.0.0/demo-video.mp4)*
+*Mobile Demo Video (1080×1920 Full HD MP4):* [demo-video.mp4](demo-video.mp4) *(GitHub Release Download: https://github.com/JeetPitale/salon-queue-management/releases/download/v1.1.0/demo-video.mp4)*
 
 ---
 
@@ -42,6 +42,7 @@ Customers can view live estimated wait times, pick services, join the virtual li
 - **Entrance Touchscreen Kiosk (K1)**: Self-service kiosk generating dynamic QR codes allowing customers to transfer tracking to their phone.
 - **Live Salon TV Display Board (D1)**: Privacy-conscious waiting area screen (first names only, masked numbers), audio chime alerts, "Now Serving" chairs, and "Next Up" ticker.
 - **Trilingual Localization & Numeral Transliteration**: Complete English, Hindi, and Gujarati translations, including automatic digit transliteration (`0–9`, `०–९`, and `૦–૯`).
+- **Interactive Onboarding Walkthrough**: Step-by-step product tour for first-time visitors with element spotlights, floating tooltips, Next/Previous controls, progress indicators, celebratory completion message, and persistent restart triggers. Tailored walkthroughs are provided for Customers, Staff, and Administrators. Tour completion is persisted in `localStorage` and can be restarted anytime via the header "Tour" button or the bottom-right floating trigger.
 
 ### 2. Staff & Management Workflows
 - **Role-Isolated Security**: Strictly segregated authentication guards (`/admin/login`, `/receptionist/login`, `/stylist/login`) preventing cross-role access.

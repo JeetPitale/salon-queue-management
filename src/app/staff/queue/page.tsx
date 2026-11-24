@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { StatusBadge } from "@/components/StatusBadge";
+import { OnboardingTour } from "@/components/OnboardingTour";
 import {
   Scissors,
   Users,
@@ -348,7 +349,7 @@ export default function QueueBoard() {
 
         {/* Left Column: Queue Table */}
         <div className="col-span-1 lg:col-span-8 flex flex-col space-y-4">
-          <div className="flex items-center justify-between">
+          <div id="tour-staff-stats" className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <h2 className="text-xl font-bold text-primary">Live Queue List</h2>
               <span className="px-2.5 py-0.5 rounded-full bg-primary/10 text-primary font-bold text-xs">
@@ -365,7 +366,7 @@ export default function QueueBoard() {
             </button>
           </div>
 
-          <div className="bg-white rounded-2xl border border-[#E4E1DC] shadow-sm overflow-hidden">
+          <div id="tour-staff-list" className="bg-white rounded-2xl border border-[#E4E1DC] shadow-sm overflow-hidden">
             {displayedEntries.length === 0 ? (
               <div className="p-12 text-center text-muted">
                 <Users className="w-12 h-12 text-muted/40 mx-auto mb-2" />
@@ -438,6 +439,7 @@ export default function QueueBoard() {
                               {/* R3: WAITING -> CALLED */}
                               {isWaiting && (
                                 <button
+                                  id="tour-staff-call-btn"
                                   onClick={() => {
                                     setCallModalEntry(row);
                                     // Preselect current stylist if logged in as STYLIST
@@ -510,7 +512,7 @@ export default function QueueBoard() {
         </div>
 
         {/* Right Column: Stylists Availability Panel (S2 spec) */}
-        <div className="col-span-1 lg:col-span-4 flex flex-col space-y-4">
+        <div id="tour-staff-actions" className="col-span-1 lg:col-span-4 flex flex-col space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold text-primary">Stylists Panel</h2>
             <span className="text-xs text-muted font-medium">
@@ -737,6 +739,9 @@ export default function QueueBoard() {
           </div>
         </div>
       )}
+
+      {/* Staff Role Walkthrough */}
+      <OnboardingTour role="staff" />
     </div>
   );
 }

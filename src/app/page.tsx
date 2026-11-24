@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Header } from "@/components/Header";
+import { OnboardingTour } from "@/components/OnboardingTour";
 import { useLanguage } from "@/components/LanguageContext";
 import { Clock, Users, ArrowRight, Sparkles, AlertCircle, RefreshCw } from "lucide-react";
 
@@ -119,7 +120,10 @@ export default function SalonHome() {
           </div>
 
           {/* Hero Wait Time Card */}
-          <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-[#E4E1DC] shadow-sm text-center relative overflow-hidden">
+          <div
+            id="tour-wait-card"
+            className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-[#E4E1DC] shadow-sm text-center relative overflow-hidden"
+          >
             <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-primary to-accent" />
 
             <p className="text-xs sm:text-sm font-semibold text-muted uppercase tracking-wider mb-2">
@@ -152,7 +156,7 @@ export default function SalonHome() {
           </div>
 
           {/* Quick Info Cards */}
-          <div className="grid grid-cols-1 xs:grid-cols-2 gap-2.5 sm:gap-3">
+          <div id="tour-info-cards" className="grid grid-cols-1 xs:grid-cols-2 gap-2.5 sm:gap-3">
             <div className="bg-white p-3.5 sm:p-4 rounded-xl border border-[#E4E1DC]">
               <div className="flex items-center gap-2 text-primary mb-1">
                 <Clock className="w-4 h-4 text-accent shrink-0" />
@@ -187,7 +191,7 @@ export default function SalonHome() {
         </div>
 
         {/* Primary Action Button (R2 logic: View My Token vs Join Queue) */}
-        <div className="mt-8 pt-4 pb-2">
+        <div id="tour-join-btn" className="mt-8 pt-4 pb-2">
           {!isOpen ? (
             <div className="bg-[#FAF8F5] border border-[#E4E1DC] p-4 rounded-xl text-center">
               <p className="text-sm font-medium text-muted">
@@ -214,6 +218,9 @@ export default function SalonHome() {
           )}
         </div>
       </main>
+
+      {/* Interactive Onboarding Tour */}
+      <OnboardingTour role="customer" />
     </div>
   );
 }
