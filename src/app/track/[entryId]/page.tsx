@@ -216,16 +216,16 @@ export default function TokenLiveTracking({
         </div>
       )}
 
-      <main className="flex-1 max-w-md w-full mx-auto px-4 py-6 flex flex-col justify-between">
+      <main className="flex-1 max-w-md sm:max-w-lg lg:max-w-xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 flex flex-col justify-between">
         <div className="space-y-6">
           {/* Centered Token Inside Accent Circle & Badge (C4 spec) */}
-          <div className="bg-white rounded-2xl p-6 border border-[#E4E1DC] shadow-sm text-center">
-            <p className="text-xs font-semibold text-muted uppercase tracking-wider mb-4">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-[#E4E1DC] shadow-sm text-center">
+            <p className="text-xs font-semibold text-muted uppercase tracking-wider mb-3">
               {t("token")}
             </p>
 
-            <div className="w-32 h-32 rounded-full border-4 border-accent/40 bg-accent/10 flex items-center justify-center mx-auto my-2 shadow-inner">
-              <span className="text-6xl font-black text-primary tracking-tight">
+            <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-full border-4 border-accent/40 bg-accent/10 flex items-center justify-center mx-auto my-2 shadow-inner">
+              <span className="text-5xl sm:text-6xl font-black text-primary tracking-tight">
                 #{data.tokenNumber}
               </span>
             </div>
@@ -336,8 +336,8 @@ export default function TokenLiveTracking({
 
       {/* Cancel Confirmation Modal */}
       {cancelModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl max-w-sm w-full p-6 space-y-4 border border-[#E4E1DC] shadow-xl">
+        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
+          <div className="bg-white rounded-2xl w-full max-w-sm p-5 sm:p-6 space-y-4 border border-[#E4E1DC] shadow-xl my-auto">
             <h3 className="font-bold text-lg text-primary">{t("cancel_queue")}</h3>
             <p className="text-sm text-muted">
               {t("cancel_confirm")} {t("cancel_modal_desc")}

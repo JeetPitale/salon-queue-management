@@ -100,13 +100,13 @@ export default function StaffSkillsManager() {
   const stylistsOnly = staff.filter((s) => s.role === "STYLIST");
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-[#1B1B1F] flex flex-col font-sans">
+    <div className="min-h-screen bg-[#FAF8F5] text-[#1B1B1F] flex flex-col font-sans overflow-x-hidden">
       <AdminNav />
 
-      <main className="flex-1 max-w-6xl w-full mx-auto p-6 space-y-6">
-        <div className="flex items-center justify-between">
+      <main className="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-6 space-y-6">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
           <div>
-            <h1 className="text-2xl font-black text-primary">Staff & Skills Manager (A3)</h1>
+            <h1 className="text-xl sm:text-2xl font-black text-primary">Staff & Skills Manager (A3)</h1>
             <p className="text-xs text-muted">
               Configure staff roles and the Skill Matrix. Ticking skills drives rule R4 (call matching) and R5 (wait estimates).
             </p>
@@ -114,7 +114,7 @@ export default function StaffSkillsManager() {
 
           <button
             onClick={() => setAddModalOpen(true)}
-            className="px-4 py-2.5 rounded-xl bg-primary hover:bg-[#182e4c] text-white font-bold text-xs flex items-center gap-1.5 shadow-sm"
+            className="px-4 py-2.5 rounded-xl bg-primary hover:bg-[#182e4c] text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-sm self-start sm:self-auto"
           >
             <Plus className="w-4 h-4" />
             <span>Add Staff Member</span>
@@ -122,18 +122,18 @@ export default function StaffSkillsManager() {
         </div>
 
         {/* Skill Matrix Table (A3 Spec) */}
-        <div className="bg-white rounded-3xl border border-[#E4E1DC] shadow-sm p-6 space-y-4">
-          <div className="flex items-center justify-between">
-            <h3 className="font-extrabold text-lg text-primary flex items-center gap-2">
+        <div className="bg-white rounded-2xl sm:rounded-3xl border border-[#E4E1DC] shadow-sm p-4 sm:p-6 space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+            <h3 className="font-extrabold text-base sm:text-lg text-primary flex items-center gap-2">
               <ShieldCheck className="w-5 h-5 text-accent" />
               <span>Stylist Skills Matrix</span>
             </h3>
-            <span className="text-xs text-muted">
+            <span className="text-[11px] sm:text-xs text-muted">
               Click any checkbox to update qualified services in real time
             </span>
           </div>
 
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto -mx-2 sm:mx-0">
             <table className="w-full text-left text-sm">
               <thead className="bg-[#FAF8F5] border-b border-[#E4E1DC] text-xs font-bold text-muted uppercase">
                 <tr>
@@ -184,8 +184,8 @@ export default function StaffSkillsManager() {
 
       {/* Add Staff Modal */}
       {addModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-md w-full p-6 border border-[#E4E1DC] shadow-2xl space-y-5">
+        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+          <div className="bg-white rounded-2xl sm:rounded-3xl max-w-sm sm:max-w-md w-full p-5 sm:p-6 border border-[#E4E1DC] shadow-2xl space-y-4 sm:space-y-5 my-auto max-h-[90vh] overflow-y-auto">
             <h3 className="font-bold text-xl text-primary">Add Staff Member</h3>
 
             <form onSubmit={handleAddStaff} className="space-y-4">
@@ -203,7 +203,7 @@ export default function StaffSkillsManager() {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-bold text-muted uppercase tracking-wider mb-1">
                     Username

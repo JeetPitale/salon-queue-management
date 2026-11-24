@@ -54,15 +54,15 @@ export default function CustomerFeedback({
     <div className="min-h-screen flex flex-col bg-[#FAF8F5]">
       <Header />
 
-      <main className="flex-1 max-w-md w-full mx-auto px-4 py-8 flex flex-col justify-between">
+      <main className="flex-1 max-w-md sm:max-w-lg w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 flex flex-col justify-between">
         <div className="space-y-6">
           {submitted ? (
-            <div className="bg-white rounded-2xl p-8 border border-[#E4E1DC] shadow-sm text-center space-y-4 my-8">
-              <CheckCircle className="w-16 h-16 text-[#2D6A1F] mx-auto" />
-              <h2 className="text-2xl font-bold text-primary">
+            <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-[#E4E1DC] shadow-sm text-center space-y-4 my-6">
+              <CheckCircle className="w-14 h-14 sm:w-16 sm:h-16 text-[#2D6A1F] mx-auto" />
+              <h2 className="text-xl sm:text-2xl font-bold text-primary">
                 {t("thank_you")}
               </h2>
-              <p className="text-sm text-muted">
+              <p className="text-xs sm:text-sm text-muted">
                 {t("feedback_recorded")}
               </p>
               <div className="pt-4">
@@ -76,12 +76,12 @@ export default function CustomerFeedback({
               </div>
             </div>
           ) : (
-            <div className="bg-white rounded-2xl p-6 border border-[#E4E1DC] shadow-sm space-y-6">
+            <div className="bg-white rounded-2xl sm:rounded-3xl p-5 sm:p-6 border border-[#E4E1DC] shadow-sm space-y-5">
               <div className="text-center">
-                <h1 className="text-2xl font-bold text-primary">
+                <h1 className="text-xl sm:text-2xl font-bold text-primary">
                   {t("rate_experience")}
                 </h1>
-                <p className="text-sm text-muted mt-1">
+                <p className="text-xs sm:text-sm text-muted mt-1">
                   {t("rate_subtitle")}
                 </p>
               </div>
@@ -93,18 +93,19 @@ export default function CustomerFeedback({
                 </div>
               )}
 
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-5">
                 {/* 1-5 Star Interactive Selector */}
-                <div className="flex items-center justify-center gap-3 py-2">
+                <div className="flex items-center justify-center gap-2 sm:gap-3 py-2 flex-wrap">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <button
                       key={star}
                       type="button"
                       onClick={() => setRating(star)}
-                      className="p-1.5 transition-transform hover:scale-110 active:scale-95 focus:outline-none"
+                      className="p-1 sm:p-1.5 transition-transform hover:scale-110 active:scale-95 focus:outline-none min-w-[36px] min-h-[36px] flex items-center justify-center"
+                      aria-label={`Rate ${star} star`}
                     >
                       <Star
-                        className={`w-10 h-10 ${
+                        className={`w-8 h-8 sm:w-10 sm:h-10 ${
                           star <= rating
                             ? "text-accent fill-accent"
                             : "text-[#E4E1DC] stroke-[1.5]"

@@ -84,11 +84,11 @@ export default function SalonHome() {
     <div className="min-h-screen flex flex-col bg-[#FAF8F5]">
       <Header />
 
-      <main className="flex-1 max-w-md w-full mx-auto px-4 py-6 flex flex-col justify-between">
+      <main className="flex-1 max-w-md sm:max-w-lg lg:max-w-xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 flex flex-col justify-between">
         <div className="space-y-6">
           {/* Open/Closed status pill & hours */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
+          <div className="flex items-center justify-between gap-2 flex-wrap">
+            <div className="flex items-center gap-2 flex-wrap">
               <span
                 className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold ${
                   isOpen
@@ -110,34 +110,35 @@ export default function SalonHome() {
 
             <button
               onClick={fetchSalon}
-              className="p-1.5 text-muted hover:text-primary transition-colors"
+              className="p-2 rounded-lg text-muted hover:text-primary hover:bg-white border border-transparent hover:border-[#E4E1DC] transition-colors"
               title={t("refresh")}
+              aria-label={t("refresh")}
             >
               <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
             </button>
           </div>
 
           {/* Hero Wait Time Card */}
-          <div className="bg-white rounded-2xl p-6 border border-[#E4E1DC] shadow-sm text-center relative overflow-hidden">
+          <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-[#E4E1DC] shadow-sm text-center relative overflow-hidden">
             <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-primary to-accent" />
 
-            <p className="text-sm font-medium text-muted uppercase tracking-wider mb-2">
+            <p className="text-xs sm:text-sm font-semibold text-muted uppercase tracking-wider mb-2">
               {t("estimated_wait")}
             </p>
 
-            <div className="my-3">
-              <span className="text-6xl font-extrabold text-primary tracking-tight">
+            <div className="my-3 flex items-baseline justify-center">
+              <span className="text-5xl sm:text-6xl lg:text-7xl font-black text-primary tracking-tight">
                 {isOpen ? waitMinutes : "--"}
               </span>
-              <span className="text-lg font-semibold text-muted ml-2">
+              <span className="text-base sm:text-lg font-semibold text-muted ml-2">
                 {t("mins")}
               </span>
             </div>
 
             {/* People waiting counter */}
             <div className="inline-flex items-center gap-2 bg-[#FAF8F5] px-4 py-2 rounded-full border border-[#E4E1DC] mt-2">
-              <Users className="w-4 h-4 text-accent" />
-              <span className="text-sm font-semibold text-[#1B1B1F]">
+              <Users className="w-4 h-4 text-accent shrink-0" />
+              <span className="text-xs sm:text-sm font-semibold text-[#1B1B1F]">
                 {waitingCount} {t("people_waiting")}
               </span>
             </div>
@@ -151,35 +152,35 @@ export default function SalonHome() {
           </div>
 
           {/* Quick Info Cards */}
-          <div className="grid grid-cols-2 gap-3">
-            <div className="bg-white p-4 rounded-xl border border-[#E4E1DC]">
+          <div className="grid grid-cols-1 xs:grid-cols-2 gap-2.5 sm:gap-3">
+            <div className="bg-white p-3.5 sm:p-4 rounded-xl border border-[#E4E1DC]">
               <div className="flex items-center gap-2 text-primary mb-1">
-                <Clock className="w-4 h-4 text-accent" />
+                <Clock className="w-4 h-4 text-accent shrink-0" />
                 <span className="text-xs font-semibold">{t("hours_today")}</span>
               </div>
-              <p className="text-sm font-bold text-[#1B1B1F]">
+              <p className="text-xs sm:text-sm font-bold text-[#1B1B1F] truncate">
                 {data?.salon?.openingTime} - {data?.salon?.closingTime}
               </p>
             </div>
 
-            <div className="bg-white p-4 rounded-xl border border-[#E4E1DC]">
+            <div className="bg-white p-3.5 sm:p-4 rounded-xl border border-[#E4E1DC]">
               <div className="flex items-center gap-2 text-primary mb-1">
-                <Users className="w-4 h-4 text-accent" />
+                <Users className="w-4 h-4 text-accent shrink-0" />
                 <span className="text-xs font-semibold">{t("active_stylists")}</span>
               </div>
-              <p className="text-sm font-bold text-[#1B1B1F]">
+              <p className="text-xs sm:text-sm font-bold text-[#1B1B1F] truncate">
                 {data?.workingStylistsCount ?? 0} {t("on_duty")}
               </p>
             </div>
           </div>
 
           {/* Public Display & Kiosk Links for convenience */}
-          <div className="flex items-center justify-center gap-4 pt-2 text-xs text-muted">
-            <Link href="/display" className="hover:text-primary underline">
+          <div className="flex items-center justify-center gap-3 sm:gap-4 pt-2 text-xs text-muted flex-wrap">
+            <Link href="/display" className="hover:text-primary underline py-1">
               {t("salon_display")}
             </Link>
             <span>•</span>
-            <Link href="/kiosk" className="hover:text-primary underline">
+            <Link href="/kiosk" className="hover:text-primary underline py-1">
               {t("kiosk_mode")}
             </Link>
           </div>

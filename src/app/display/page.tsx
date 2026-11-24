@@ -120,30 +120,40 @@ export default function PublicDisplayBoard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#1F3A5F] text-white flex flex-col font-sans select-none overflow-hidden">
+    <div className="min-h-screen bg-[#1F3A5F] text-white flex flex-col font-sans select-none overflow-x-hidden">
       {/* Top Banner: Salon Name, Clock, Chime Toggle & Language Selector */}
-      <header className="bg-[#14263E] border-b border-white/10 px-8 py-5 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-accent flex items-center justify-center text-white shadow-md">
-            <Scissors className="w-7 h-7" />
+      <header className="bg-[#14263E] border-b border-white/10 px-4 sm:px-8 py-3.5 sm:py-5 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
+        <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto justify-between sm:justify-start">
+          <div className="flex items-center gap-2.5 sm:gap-4">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-accent flex items-center justify-center text-white shadow-md shrink-0">
+              <Scissors className="w-5 h-5 sm:w-7 sm:h-7" />
+            </div>
+            <div>
+              <h1 className="text-xl sm:text-2xl lg:text-3xl font-black tracking-tight">{t("salon_name")}</h1>
+              <p className="text-[10px] sm:text-xs text-white/70 uppercase tracking-widest">
+                {t("display_subtitle")}
+              </p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-3xl font-black tracking-tight">{t("salon_name")}</h1>
-            <p className="text-xs text-white/70 uppercase tracking-widest">
-              {t("display_subtitle")}
-            </p>
+
+          {/* Clock for mobile if stacked */}
+          <div className="flex sm:hidden items-center gap-1.5 bg-white/10 px-3 py-1.5 rounded-xl border border-white/10">
+            <Clock className="w-4 h-4 text-accent" />
+            <span className="text-sm font-mono font-bold tracking-wider">
+              {currentTime}
+            </span>
           </div>
         </div>
 
-        <div className="flex items-center gap-6">
+        <div className="flex items-center justify-between sm:justify-end gap-2 sm:gap-4 w-full sm:w-auto">
           {/* Language Buttons */}
-          <div className="flex items-center gap-1 bg-white/10 p-1 rounded-xl border border-white/10">
-            <Globe className="w-4 h-4 text-white/60 ml-1.5 mr-1" />
+          <div className="flex items-center gap-1 bg-white/10 p-0.5 sm:p-1 rounded-xl border border-white/10">
+            <Globe className="w-3.5 h-3.5 text-white/60 ml-1.5 mr-0.5 hidden xs:inline" />
             {(["en", "hi", "gu"] as Language[]).map((lang) => (
               <button
                 key={lang}
                 onClick={() => setLanguage(lang)}
-                className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${
+                className={`px-2 sm:px-3 py-1 rounded-lg text-xs font-bold transition-all ${
                   language === lang
                     ? "bg-accent text-white shadow-md"
                     : "text-white/70 hover:text-white"
@@ -154,58 +164,58 @@ export default function PublicDisplayBoard() {
             ))}
           </div>
 
-          <div className="flex items-center gap-2 bg-white/10 px-5 py-2 rounded-xl border border-white/10">
+          <div className="hidden sm:flex items-center gap-2 bg-white/10 px-4 py-2 rounded-xl border border-white/10">
             <Clock className="w-5 h-5 text-accent" />
-            <span className="text-2xl font-mono font-bold tracking-wider">
+            <span className="text-xl lg:text-2xl font-mono font-bold tracking-wider">
               {currentTime}
             </span>
           </div>
 
           <button
             onClick={() => setSoundEnabled((v) => !v)}
-            className="p-2.5 rounded-xl bg-white/10 hover:bg-white/20 transition-colors text-white/80"
+            className="p-2 sm:p-2.5 rounded-xl bg-white/10 hover:bg-white/20 transition-colors text-white/80"
             title={soundEnabled ? "Mute Chime" : "Enable Chime"}
           >
             {soundEnabled ? (
-              <Volume2 className="w-5 h-5 text-accent" />
+              <Volume2 className="w-4 h-4 sm:w-5 sm:h-5 text-accent" />
             ) : (
-              <VolumeX className="w-5 h-5" />
+              <VolumeX className="w-4 h-4 sm:w-5 sm:h-5" />
             )}
           </button>
         </div>
       </header>
 
-      {/* Main Grid: Left = Now Serving (Large), Right = Next Up */}
-      <main className="flex-1 p-8 grid grid-cols-12 gap-8">
-        {/* Left 7 Columns: Now Serving */}
-        <section className="col-span-7 flex flex-col space-y-4">
+      {/* Main Grid: Responsive 1 col on mobile/tablet, 12-col on large screens */}
+      <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl 2xl:max-w-[1800px] w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
+        {/* Now Serving: 1 col on small screens, 7 columns on desktop */}
+        <section className="col-span-1 lg:col-span-7 flex flex-col space-y-4">
           <div className="flex items-center justify-between border-b border-white/20 pb-3">
-            <h2 className="text-2xl font-black tracking-wide flex items-center gap-3">
+            <h2 className="text-xl sm:text-2xl font-black tracking-wide flex items-center gap-3">
               <span className="w-3.5 h-3.5 rounded-full bg-[#2D6A1F] animate-ping" />
               <span>{t("now_serving")}</span>
             </h2>
-            <span className="text-sm font-semibold text-white/70">
+            <span className="text-xs sm:text-sm font-semibold text-white/70">
               {nowServing.length} {t("in_chairs")}
             </span>
           </div>
 
           {nowServing.length === 0 ? (
-            <div className="flex-1 bg-white/5 rounded-3xl border border-white/10 flex flex-col items-center justify-center p-8 text-center">
-              <Sparkles className="w-16 h-16 text-white/30 mb-3" />
-              <p className="text-2xl font-bold text-white/60">
+            <div className="flex-1 min-h-[180px] bg-white/5 rounded-2xl sm:rounded-3xl border border-white/10 flex flex-col items-center justify-center p-6 sm:p-8 text-center">
+              <Sparkles className="w-12 h-12 sm:w-16 sm:h-16 text-white/30 mb-3" />
+              <p className="text-lg sm:text-2xl font-bold text-white/60">
                 {t("chairs_ready")}
               </p>
             </div>
           ) : (
-            <div className="flex-1 grid grid-cols-2 gap-4 auto-rows-fr">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 auto-rows-fr">
               {nowServing.map((item) => {
                 const isCalled = item.status === "CALLED";
                 return (
                   <div
                     key={item.id}
-                    className={`rounded-3xl p-6 flex flex-col justify-between border-2 transition-all ${
+                    className={`rounded-2xl sm:rounded-3xl p-5 sm:p-6 flex flex-col justify-between border-2 transition-all ${
                       isCalled
-                        ? "bg-[#DCE9F7] text-[#1F3A5F] border-accent shadow-2xl animate-call-pulse scale-[1.02]"
+                        ? "bg-[#DCE9F7] text-[#1F3A5F] border-accent shadow-2xl animate-call-pulse"
                         : "bg-white text-[#1B1B1F] border-transparent shadow-lg"
                     }`}
                   >
@@ -213,25 +223,25 @@ export default function PublicDisplayBoard() {
                       <div className="flex items-center justify-between mb-2">
                         <StatusBadge status={item.status} size="md" />
                         {isCalled && (
-                          <span className="text-xs font-black uppercase text-[#1F5FA8] tracking-wider">
+                          <span className="text-[10px] sm:text-xs font-black uppercase text-[#1F5FA8] tracking-wider">
                             {t("proceed_chair_ticker")}
                           </span>
                         )}
                       </div>
 
-                      <div className="text-6xl font-black tracking-tight my-2">
+                      <div className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight my-2">
                         #{item.tokenNumber}
                       </div>
 
                       {/* Token numbers and first names ONLY, never phone numbers (Rule D1) */}
-                      <p className="text-2xl font-extrabold truncate">
+                      <p className="text-lg sm:text-2xl font-extrabold truncate">
                         {getFirstName(item.customerName)}
                       </p>
                     </div>
 
-                    <div className="pt-4 border-t border-black/10 flex items-center justify-between text-sm">
-                      <span className="text-xs font-semibold opacity-70">{t("assigned_stylist")}:</span>
-                      <span className="font-bold">
+                    <div className="pt-3 sm:pt-4 border-t border-black/10 flex items-center justify-between text-xs sm:text-sm mt-3">
+                      <span className="text-[11px] sm:text-xs font-semibold opacity-70">{t("assigned_stylist")}:</span>
+                      <span className="font-bold truncate ml-2">
                         {item.assignedStaff?.name || t("available")}
                       </span>
                     </div>
@@ -242,15 +252,15 @@ export default function PublicDisplayBoard() {
           )}
         </section>
 
-        {/* Right 5 Columns: Next Up & Wait Time Metrics */}
-        <section className="col-span-5 flex flex-col space-y-4">
-          <div className="flex items-center justify-between border-b border-white/20 pb-3">
-            <h2 className="text-2xl font-black tracking-wide flex items-center gap-3">
-              <Users className="w-6 h-6 text-accent" />
+        {/* Next Up: 1 col on small screens, 5 columns on desktop */}
+        <section className="col-span-1 lg:col-span-5 flex flex-col space-y-4">
+          <div className="flex items-center justify-between border-b border-white/20 pb-3 flex-wrap gap-2">
+            <h2 className="text-xl sm:text-2xl font-black tracking-wide flex items-center gap-2 sm:gap-3">
+              <Users className="w-5 h-5 sm:w-6 sm:h-6 text-accent shrink-0" />
               <span>{t("next_up")}</span>
             </h2>
-            <div className="flex items-center gap-2 text-sm font-semibold text-accent">
-              <Clock className="w-4 h-4" />
+            <div className="flex items-center gap-2 text-xs sm:text-sm font-semibold text-accent">
+              <Clock className="w-4 h-4 shrink-0" />
               <span>{t("average_wait")}: {avgWait}m</span>
             </div>
           </div>

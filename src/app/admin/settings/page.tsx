@@ -69,12 +69,12 @@ export default function SalonSettings() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-[#1B1B1F] flex flex-col font-sans">
+    <div className="min-h-screen bg-[#FAF8F5] text-[#1B1B1F] flex flex-col font-sans overflow-x-hidden">
       <AdminNav />
 
-      <main className="flex-1 max-w-3xl w-full mx-auto p-6 space-y-6">
+      <main className="flex-1 max-w-3xl w-full mx-auto p-4 sm:p-6 space-y-6">
         <div>
-          <h1 className="text-2xl font-black text-primary">Salon Settings (A1)</h1>
+          <h1 className="text-xl sm:text-2xl font-black text-primary">Salon Settings (A1)</h1>
           <p className="text-xs text-muted">
             Configure salon details, operating hours, and customer grace period.
           </p>
@@ -97,12 +97,12 @@ export default function SalonSettings() {
           </div>
         )}
 
-        <div className="bg-white rounded-3xl border border-[#E4E1DC] shadow-sm p-8">
-          <form onSubmit={handleSave} className="space-y-6">
+        <div className="bg-white rounded-2xl sm:rounded-3xl border border-[#E4E1DC] shadow-sm p-5 sm:p-8">
+          <form onSubmit={handleSave} className="space-y-5 sm:space-y-6">
             {/* Open / Closed Toggle Switch */}
-            <div className="p-4 rounded-2xl bg-[#FAF8F5] border border-[#E4E1DC] flex items-center justify-between">
+            <div className="p-3.5 sm:p-4 rounded-2xl bg-[#FAF8F5] border border-[#E4E1DC] flex items-center justify-between gap-3">
               <div>
-                <p className="font-bold text-base text-[#1B1B1F]">Salon Operating Status</p>
+                <p className="font-bold text-sm sm:text-base text-[#1B1B1F]">Salon Operating Status</p>
                 <p className="text-xs text-muted">
                   When closed, customer queue joining is paused. Active queues continue.
                 </p>
@@ -132,11 +132,11 @@ export default function SalonSettings() {
                 required
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full bg-[#FAF8F5] border border-[#E4E1DC] focus:border-primary rounded-xl px-4 py-2.5 text-sm outline-none"
+                className="w-full bg-[#FAF8F5] border border-[#E4E1DC] focus:border-primary rounded-xl px-4 py-2.5 text-base sm:text-sm outline-none"
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div>
                 <label className="block text-xs font-bold text-muted uppercase tracking-wider mb-1.5">
                   Phone Number
@@ -146,7 +146,7 @@ export default function SalonSettings() {
                   required
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full bg-[#FAF8F5] border border-[#E4E1DC] focus:border-primary rounded-xl px-4 py-2.5 text-sm outline-none"
+                  className="w-full bg-[#FAF8F5] border border-[#E4E1DC] focus:border-primary rounded-xl px-4 py-2.5 text-base sm:text-sm outline-none"
                 />
               </div>
 
@@ -161,7 +161,7 @@ export default function SalonSettings() {
                   required
                   value={gracePeriodMinutes}
                   onChange={(e) => setGracePeriodMinutes(Number(e.target.value))}
-                  className="w-full bg-[#FAF8F5] border border-[#E4E1DC] focus:border-primary rounded-xl px-4 py-2.5 text-sm outline-none"
+                  className="w-full bg-[#FAF8F5] border border-[#E4E1DC] focus:border-primary rounded-xl px-4 py-2.5 text-base sm:text-sm outline-none"
                 />
               </div>
             </div>
@@ -175,11 +175,11 @@ export default function SalonSettings() {
                 required
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
-                className="w-full bg-[#FAF8F5] border border-[#E4E1DC] focus:border-primary rounded-xl px-4 py-2.5 text-sm outline-none"
+                className="w-full bg-[#FAF8F5] border border-[#E4E1DC] focus:border-primary rounded-xl px-4 py-2.5 text-base sm:text-sm outline-none"
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div>
                 <label className="block text-xs font-bold text-muted uppercase tracking-wider mb-1.5">
                   Daily Opening Time
@@ -189,7 +189,7 @@ export default function SalonSettings() {
                   required
                   value={openingTime}
                   onChange={(e) => setOpeningTime(e.target.value)}
-                  className="w-full bg-[#FAF8F5] border border-[#E4E1DC] focus:border-primary rounded-xl px-4 py-2.5 text-sm outline-none"
+                  className="w-full bg-[#FAF8F5] border border-[#E4E1DC] focus:border-primary rounded-xl px-4 py-2.5 text-base sm:text-sm outline-none"
                 />
               </div>
 
@@ -202,7 +202,7 @@ export default function SalonSettings() {
                   required
                   value={closingTime}
                   onChange={(e) => setClosingTime(e.target.value)}
-                  className="w-full bg-[#FAF8F5] border border-[#E4E1DC] focus:border-primary rounded-xl px-4 py-2.5 text-sm outline-none"
+                  className="w-full bg-[#FAF8F5] border border-[#E4E1DC] focus:border-primary rounded-xl px-4 py-2.5 text-base sm:text-sm outline-none"
                 />
               </div>
             </div>

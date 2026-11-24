@@ -134,13 +134,13 @@ export default function OtpVerification() {
     <div className="min-h-screen flex flex-col bg-[#FAF8F5]">
       <Header />
 
-      <main className="flex-1 max-w-md w-full mx-auto px-4 py-8 flex flex-col justify-between">
+      <main className="flex-1 max-w-md sm:max-w-lg w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 flex flex-col justify-between">
         <div className="space-y-6">
           <div>
-            <h1 className="text-2xl font-bold text-primary">
+            <h1 className="text-xl sm:text-2xl font-bold text-primary">
               {step === "phone" ? t("enter_details") : t("otp_title")}
             </h1>
-            <p className="text-sm text-muted">
+            <p className="text-xs sm:text-sm text-muted">
               {step === "phone"
                 ? t("otp_details_sub")
                 : `${t("otp_sent_to")} +91 ${phone}`}

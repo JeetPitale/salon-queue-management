@@ -58,8 +58,8 @@ export default function TodaysHistory() {
   }, [search]);
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-[#1B1B1F] flex flex-col font-sans">
-      <header className="bg-white border-b border-[#E4E1DC] px-6 py-4 flex items-center justify-between">
+    <div className="min-h-screen bg-[#FAF8F5] text-[#1B1B1F] flex flex-col font-sans overflow-x-hidden">
+      <header className="bg-white border-b border-[#E4E1DC] px-4 sm:px-6 py-3 sm:py-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 shadow-sm">
         <div className="flex items-center gap-3">
           <Link
             href="/staff/queue"
@@ -67,23 +67,23 @@ export default function TodaysHistory() {
           >
             <ArrowLeft className="w-4 h-4" />
           </Link>
-          <h1 className="font-black text-xl text-primary">Today&apos;s History (S5)</h1>
+          <h1 className="font-black text-lg sm:text-xl text-primary">Today&apos;s History (S5)</h1>
         </div>
 
         {/* Search Input by Token or Phone (S5 Spec) */}
-        <div className="relative w-72">
+        <div className="relative w-full sm:w-72">
           <Search className="w-4 h-4 text-muted absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by token or phone..."
-            className="w-full bg-[#FAF8F5] border border-[#E4E1DC] focus:border-primary rounded-xl pl-9 pr-4 py-2 text-xs outline-none"
+            className="w-full bg-[#FAF8F5] border border-[#E4E1DC] focus:border-primary rounded-xl pl-9 pr-4 py-2 text-xs sm:text-sm outline-none"
           />
         </div>
       </header>
 
-      <main className="flex-1 max-w-7xl w-full mx-auto p-6 space-y-4">
+      <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 space-y-4">
         <div className="flex items-center justify-between">
           <p className="text-sm font-semibold text-muted">
             Completed, cancelled, and no-show customer turns today.

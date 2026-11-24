@@ -45,8 +45,8 @@ export default function ReceptionistLogin() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] flex flex-col justify-center items-center p-4">
-      <div className="max-w-md w-full bg-white rounded-3xl border border-[#E4E1DC] shadow-lg p-8 space-y-6">
+    <div className="min-h-screen bg-[#FAF8F5] flex flex-col justify-center items-center p-3 sm:p-4">
+      <div className="max-w-md w-full bg-white rounded-2xl sm:rounded-3xl border border-[#E4E1DC] shadow-lg p-5 sm:p-8 space-y-6">
         <div className="text-center space-y-2">
           <div className="w-16 h-16 rounded-2xl bg-primary text-white flex items-center justify-center mx-auto shadow-md">
             <ClipboardList className="w-8 h-8" />

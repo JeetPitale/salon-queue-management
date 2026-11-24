@@ -118,8 +118,8 @@ export default function AddWalkIn() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-[#1B1B1F] flex flex-col font-sans">
-      <header className="bg-white border-b border-[#E4E1DC] px-6 py-4 flex items-center justify-between">
+    <div className="min-h-screen bg-[#FAF8F5] text-[#1B1B1F] flex flex-col font-sans overflow-x-hidden">
+      <header className="bg-white border-b border-[#E4E1DC] px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between shadow-sm">
         <div className="flex items-center gap-3">
           <Link
             href="/staff/queue"
@@ -127,14 +127,14 @@ export default function AddWalkIn() {
           >
             <ArrowLeft className="w-4 h-4" />
           </Link>
-          <h1 className="font-black text-xl text-primary">Add Walk-in Customer (S3)</h1>
+          <h1 className="font-black text-lg sm:text-xl text-primary">Add Walk-in Customer (S3)</h1>
         </div>
       </header>
 
-      <main className="flex-1 max-w-2xl w-full mx-auto p-6">
-        <div className="bg-white rounded-3xl border border-[#E4E1DC] shadow-sm p-8 space-y-6">
+      <main className="flex-1 max-w-2xl w-full mx-auto p-4 sm:p-6">
+        <div className="bg-white rounded-2xl sm:rounded-3xl border border-[#E4E1DC] shadow-sm p-5 sm:p-8 space-y-6">
           <div className="space-y-1">
-            <h2 className="text-xl font-bold text-primary">New Customer Registration</h2>
+            <h2 className="text-lg sm:text-xl font-bold text-primary">New Customer Registration</h2>
             <p className="text-xs text-muted">
               Add walk-in customer turn without OTP. Read out token and wait estimate aloud.
             </p>
@@ -146,8 +146,8 @@ export default function AddWalkIn() {
             </div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-2 gap-4">
+          <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               <div>
                 <label className="block text-xs font-bold text-muted uppercase tracking-wider mb-1.5">
                   Customer Name
@@ -160,7 +160,7 @@ export default function AddWalkIn() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Full name"
-                    className="w-full bg-[#FAF8F5] border border-[#E4E1DC] focus:border-primary rounded-xl pl-11 pr-4 py-3 text-sm outline-none"
+                    className="w-full bg-[#FAF8F5] border border-[#E4E1DC] focus:border-primary rounded-xl pl-11 pr-4 py-2.5 sm:py-3 text-base sm:text-sm outline-none"
                   />
                 </div>
               </div>
@@ -177,7 +177,7 @@ export default function AddWalkIn() {
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder="10-digit mobile"
-                    className="w-full bg-[#FAF8F5] border border-[#E4E1DC] focus:border-primary rounded-xl pl-11 pr-4 py-3 text-sm outline-none"
+                    className="w-full bg-[#FAF8F5] border border-[#E4E1DC] focus:border-primary rounded-xl pl-11 pr-4 py-2.5 sm:py-3 text-base sm:text-sm outline-none"
                   />
                 </div>
               </div>
@@ -187,28 +187,28 @@ export default function AddWalkIn() {
               <label className="block text-xs font-bold text-muted uppercase tracking-wider mb-2">
                 Select Requested Services
               </label>
-              <div className="grid grid-cols-2 gap-3 max-h-60 overflow-y-auto p-1">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3 max-h-60 overflow-y-auto p-1">
                 {services.map((s) => {
                   const isSelected = selectedIds.includes(s.id);
                   return (
                     <div
                       key={s.id}
                       onClick={() => toggleService(s.id)}
-                      className={`p-3 rounded-xl border-2 cursor-pointer flex items-center justify-between transition-all ${
+                      className={`p-3 rounded-xl border-2 cursor-pointer flex items-center justify-between transition-all select-none ${
                         isSelected
                           ? "border-accent bg-white shadow-sm"
                           : "border-[#E4E1DC] bg-[#FAF8F5] hover:border-muted"
                       }`}
                     >
-                      <div>
-                        <p className="font-bold text-sm text-[#1B1B1F]">{s.name}</p>
+                      <div className="min-w-0 pr-2">
+                        <p className="font-bold text-sm text-[#1B1B1F] truncate">{s.name}</p>
                         <p className="text-xs text-muted">
                           {s.durationMinutes}m • ₹{s.price}
                         </p>
                       </div>
 
                       <div
-                        className={`w-6 h-6 rounded-lg flex items-center justify-center border ${
+                        className={`w-6 h-6 rounded-lg flex items-center justify-center border shrink-0 ${
                           isSelected
                             ? "bg-accent border-accent text-white"
                             : "border-[#E4E1DC] bg-white"
@@ -249,8 +249,8 @@ export default function AddWalkIn() {
 
       {/* Confirmation Modal to Read Aloud (F3) */}
       {createdEntry && (
-        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-sm w-full p-8 text-center space-y-5 border border-[#E4E1DC] shadow-2xl">
+        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+          <div className="bg-white rounded-2xl sm:rounded-3xl max-w-sm w-full p-5 sm:p-8 text-center space-y-4 sm:space-y-5 border border-[#E4E1DC] shadow-2xl my-auto max-h-[90vh] overflow-y-auto">
             <div className="w-14 h-14 rounded-full bg-[#D9EAD3] text-[#2D6A1F] flex items-center justify-center mx-auto">
               <Sparkles className="w-8 h-8" />
             </div>

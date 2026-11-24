@@ -21,6 +21,8 @@ import {
   IndianRupee,
   RefreshCw,
   ShieldCheck,
+  Menu,
+  X,
 } from "lucide-react";
 
 interface QueueRow {
@@ -67,6 +69,7 @@ export default function QueueBoard() {
   // Call Next Stylist Selection Modal state
   const [callModalEntry, setCallModalEntry] = useState<QueueRow | null>(null);
   const [selectedStylistId, setSelectedStylistId] = useState<string>("");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const stored = localStorage.getItem("staff_user");
@@ -198,28 +201,100 @@ export default function QueueBoard() {
     : entries;
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-[#1B1B1F] flex flex-col font-sans">
+    <div className="min-h-screen bg-[#FAF8F5] text-[#1B1B1F] flex flex-col font-sans overflow-x-hidden">
       {/* Staff Header */}
-      <header className="bg-white border-b border-[#E4E1DC] sticky top-0 z-30 px-6 py-3.5 flex items-center justify-between shadow-sm">
-        <div className="flex items-center gap-6">
-          <Link href="/staff/queue" className="flex items-center gap-2 font-black text-xl text-primary">
-            <div className="w-8 h-8 rounded-lg bg-primary text-white flex items-center justify-center">
-              <Scissors className="w-4 h-4" />
-            </div>
-            <span>Staff Console</span>
-          </Link>
+      <header className="bg-white border-b border-[#E4E1DC] sticky top-0 z-30 px-4 sm:px-6 py-2.5 sm:py-3.5 shadow-sm">
+        <div className="max-w-7xl mx-auto flex items-center justify-between gap-3">
+          <div className="flex items-center gap-4 lg:gap-6">
+            <Link href="/staff/queue" className="flex items-center gap-2 font-black text-lg sm:text-xl text-primary shrink-0">
+              <div className="w-8 h-8 rounded-lg bg-primary text-white flex items-center justify-center shrink-0">
+                <Scissors className="w-4 h-4" />
+              </div>
+              <span>Staff Console</span>
+            </Link>
 
-          <nav className="flex items-center gap-2 text-sm font-semibold">
+            <nav className="hidden lg:flex items-center gap-2 text-sm font-semibold">
+              <Link
+                href="/staff/queue"
+                className="px-3 py-1.5 rounded-lg bg-primary/10 text-primary font-bold"
+              >
+                Queue Board (S2)
+              </Link>
+              {staffUser?.role !== "STYLIST" && (
+                <Link
+                  href="/staff/walk-in"
+                  className="px-3 py-1.5 rounded-lg text-muted hover:text-primary hover:bg-[#FAF8F5] flex items-center gap-1.5"
+                >
+                  <PlusCircle className="w-4 h-4" />
+                  <span>Add Walk-in (S3)</span>
+                </Link>
+              )}
+              <Link
+                href="/staff/history"
+                className="px-3 py-1.5 rounded-lg text-muted hover:text-primary hover:bg-[#FAF8F5] flex items-center gap-1.5"
+              >
+                <History className="w-4 h-4" />
+                <span>Today&apos;s History (S5)</span>
+              </Link>
+              {staffUser?.role === "ADMIN" && (
+                <Link
+                  href="/admin/reports"
+                  className="px-3 py-1.5 rounded-lg text-accent hover:bg-accent/10 font-bold"
+                >
+                  Admin Dashboard →
+                </Link>
+              )}
+            </nav>
+          </div>
+
+          <div className="flex items-center gap-2 sm:gap-4">
+            <div className="text-right hidden sm:block">
+              <p className="text-xs font-bold text-primary truncate max-w-[140px]">{staffUser?.name}</p>
+              <p className="text-[10px] text-muted uppercase tracking-wider font-semibold">
+                {staffUser?.role}
+              </p>
+            </div>
+
+            <button
+              onClick={handleLogout}
+              className="hidden lg:flex p-2 rounded-lg text-muted hover:text-[#8B1A1A] hover:bg-[#F4CCCC]/30 transition-colors"
+              title="Log Out"
+            >
+              <LogOut className="w-4 h-4" />
+            </button>
+
+            {/* Mobile Hamburger Button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="lg:hidden p-1.5 rounded-lg border border-[#E4E1DC] text-primary hover:bg-[#FAF8F5] transition-colors"
+              aria-label="Toggle menu"
+            >
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Dropdown Menu */}
+        {mobileMenuOpen && (
+          <div className="lg:hidden pt-3 pb-2 border-t border-[#E4E1DC] mt-2.5 space-y-1.5 animate-in fade-in slide-in-from-top-2 duration-150">
+            {staffUser && (
+              <div className="px-3 py-1.5 text-xs font-bold text-muted bg-[#FAF8F5] rounded-lg">
+                Signed in as: <span className="text-primary">{staffUser.name}</span> ({staffUser.role})
+              </div>
+            )}
             <Link
               href="/staff/queue"
-              className="px-3 py-1.5 rounded-lg bg-primary/10 text-primary font-bold"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-bold bg-primary text-white"
             >
-              Queue Board (S2)
+              <Scissors className="w-4 h-4" />
+              <span>Queue Board (S2)</span>
             </Link>
             {staffUser?.role !== "STYLIST" && (
               <Link
                 href="/staff/walk-in"
-                className="px-3 py-1.5 rounded-lg text-muted hover:text-primary hover:bg-[#FAF8F5] flex items-center gap-1.5"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-semibold text-primary hover:bg-[#FAF8F5]"
               >
                 <PlusCircle className="w-4 h-4" />
                 <span>Add Walk-in (S3)</span>
@@ -227,7 +302,8 @@ export default function QueueBoard() {
             )}
             <Link
               href="/staff/history"
-              className="px-3 py-1.5 rounded-lg text-muted hover:text-primary hover:bg-[#FAF8F5] flex items-center gap-1.5"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-semibold text-primary hover:bg-[#FAF8F5]"
             >
               <History className="w-4 h-4" />
               <span>Today&apos;s History (S5)</span>
@@ -235,37 +311,34 @@ export default function QueueBoard() {
             {staffUser?.role === "ADMIN" && (
               <Link
                 href="/admin/reports"
-                className="px-3 py-1.5 rounded-lg text-accent hover:bg-accent/10 font-bold"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-bold text-accent hover:bg-accent/10"
               >
-                Admin Dashboard →
+                <ShieldCheck className="w-4 h-4" />
+                <span>Admin Dashboard</span>
               </Link>
             )}
-          </nav>
-        </div>
-
-        <div className="flex items-center gap-4">
-          <div className="text-right">
-            <p className="text-xs font-bold text-primary">{staffUser?.name}</p>
-            <p className="text-[10px] text-muted uppercase tracking-wider font-semibold">
-              {staffUser?.role}
-            </p>
+            <div className="pt-2 border-t border-[#E4E1DC]">
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  handleLogout();
+                }}
+                className="w-full flex items-center justify-center gap-2 py-2 rounded-xl bg-[#F4CCCC]/40 text-[#8B1A1A] font-bold text-xs"
+              >
+                <LogOut className="w-3.5 h-3.5" />
+                <span>Sign Out</span>
+              </button>
+            </div>
           </div>
-
-          <button
-            onClick={handleLogout}
-            className="p-2 rounded-lg text-muted hover:text-[#8B1A1A] hover:bg-[#F4CCCC]/30 transition-colors"
-            title="Log Out"
-          >
-            <LogOut className="w-4 h-4" />
-          </button>
-        </div>
+        )}
       </header>
 
-      {/* Main Grid: Queue Table (left 9 cols), Stylist Panel (right 3 cols) */}
-      <main className="flex-1 p-6 max-w-7xl w-full mx-auto grid grid-cols-12 gap-6">
+      {/* Main Grid: Responsive 1 col on mobile/tablet, 12-col on large screens */}
+      <main className="flex-1 p-4 sm:p-6 max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Error Alert */}
         {errorMsg && (
-          <div className="col-span-12 p-3 rounded-xl bg-[#F4CCCC] border border-[#8B1A1A]/40 text-[#8B1A1A] text-sm flex items-center justify-between">
+          <div className="col-span-1 lg:col-span-12 p-3 rounded-xl bg-[#F4CCCC] border border-[#8B1A1A]/40 text-[#8B1A1A] text-sm flex items-center justify-between">
             <span className="font-semibold">{errorMsg}</span>
             <button onClick={() => setErrorMsg(null)} className="font-bold underline text-xs">
               Dismiss
@@ -274,7 +347,7 @@ export default function QueueBoard() {
         )}
 
         {/* Left Column: Queue Table */}
-        <div className="col-span-8 flex flex-col space-y-4">
+        <div className="col-span-1 lg:col-span-8 flex flex-col space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <h2 className="text-xl font-bold text-primary">Live Queue List</h2>
@@ -437,7 +510,7 @@ export default function QueueBoard() {
         </div>
 
         {/* Right Column: Stylists Availability Panel (S2 spec) */}
-        <div className="col-span-4 flex flex-col space-y-4">
+        <div className="col-span-1 lg:col-span-4 flex flex-col space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold text-primary">Stylists Panel</h2>
             <span className="text-xs text-muted font-medium">
@@ -510,8 +583,8 @@ export default function QueueBoard() {
 
       {/* S4 Payment Modal (Opens after Complete - S4 Spec) */}
       {paymentModalEntry && (
-        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-md w-full p-6 border border-[#E4E1DC] shadow-2xl space-y-6">
+        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+          <div className="bg-white rounded-2xl sm:rounded-3xl max-w-sm sm:max-w-md w-full p-5 sm:p-6 border border-[#E4E1DC] shadow-2xl space-y-5 sm:space-y-6 my-auto max-h-[90vh] overflow-y-auto">
             <div className="text-center space-y-1">
               <div className="w-12 h-12 rounded-2xl bg-[#D9EAD3] text-[#2D6A1F] flex items-center justify-center mx-auto mb-2">
                 <CreditCard className="w-6 h-6" />
@@ -587,8 +660,8 @@ export default function QueueBoard() {
 
       {/* Call Next Modal with Skill-Matched Stylist Selector (R4) */}
       {callModalEntry && (
-        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-md w-full p-6 border border-[#E4E1DC] shadow-2xl space-y-5">
+        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+          <div className="bg-white rounded-2xl sm:rounded-3xl max-w-sm sm:max-w-md w-full p-5 sm:p-6 border border-[#E4E1DC] shadow-2xl space-y-4 sm:space-y-5 my-auto max-h-[90vh] overflow-y-auto">
             <h3 className="font-bold text-xl text-primary">
               Call Customer #{callModalEntry.tokenNumber}
             </h3>

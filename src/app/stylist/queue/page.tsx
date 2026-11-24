@@ -162,33 +162,34 @@ export default function StylistChairConsole() {
   });
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-[#1B1B1F] flex flex-col font-sans">
+    <div className="min-h-screen bg-[#FAF8F5] text-[#1B1B1F] flex flex-col font-sans overflow-x-hidden">
       {/* Stylist Chair Header */}
-      <header className="bg-white border-b border-[#E4E1DC] sticky top-0 z-30 px-6 py-4 flex items-center justify-between shadow-sm">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-accent text-white flex items-center justify-center">
+      <header className="bg-white border-b border-[#E4E1DC] sticky top-0 z-30 px-4 sm:px-6 py-3 sm:py-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 shadow-sm">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="w-10 h-10 rounded-xl bg-accent text-white flex items-center justify-center shrink-0">
             <Scissors className="w-5 h-5" />
           </div>
-          <div>
-            <h1 className="font-black text-xl text-primary">Chair Console: {stylist.name}</h1>
-            <p className="text-xs text-muted">
+          <div className="min-w-0">
+            <h1 className="font-black text-lg sm:text-xl text-primary truncate">Chair Console: {stylist.name}</h1>
+            <p className="text-xs text-muted truncate">
               Skills: {stylist.skills.map((s) => s.name).join(", ")}
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center justify-end gap-2 sm:gap-4">
           <button
             onClick={fetchQueue}
-            className="p-2 rounded-xl text-muted hover:text-primary border border-[#E4E1DC]"
+            className="p-2 rounded-xl text-muted hover:text-primary border border-[#E4E1DC] transition-colors"
             title="Refresh"
+            aria-label="Refresh queue"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? "animate-spin" : ""}`} />
           </button>
 
           <button
             onClick={handleLogout}
-            className="px-3 py-1.5 rounded-lg border border-[#E4E1DC] text-muted hover:text-[#8B1A1A] hover:bg-[#F4CCCC]/30 text-xs font-bold flex items-center gap-1.5"
+            className="px-3 py-1.5 rounded-lg border border-[#E4E1DC] text-muted hover:text-[#8B1A1A] hover:bg-[#F4CCCC]/30 text-xs font-bold flex items-center gap-1.5 transition-colors"
           >
             <LogOut className="w-3.5 h-3.5" />
             <span>Logout</span>
@@ -196,7 +197,7 @@ export default function StylistChairConsole() {
         </div>
       </header>
 
-      <main className="flex-1 max-w-4xl w-full mx-auto p-6 space-y-6">
+      <main className="flex-1 max-w-4xl w-full mx-auto p-4 sm:p-6 space-y-6">
         {errorMsg && (
           <div className="p-3 bg-[#F4CCCC] border border-[#8B1A1A]/40 text-[#8B1A1A] text-sm font-semibold rounded-xl flex items-center gap-2">
             <AlertCircle className="w-4 h-4 shrink-0" />
@@ -205,7 +206,7 @@ export default function StylistChairConsole() {
         )}
 
         {/* Chair Status Selector (F9: Available, Busy, On Break, Off Duty) */}
-        <div className="bg-white p-5 rounded-3xl border border-[#E4E1DC] shadow-sm flex items-center justify-between">
+        <div className="bg-white p-4 sm:p-5 rounded-2xl sm:rounded-3xl border border-[#E4E1DC] shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
           <div>
             <p className="text-xs font-bold text-muted uppercase tracking-wider">
               My Current Chair Availability
@@ -222,18 +223,18 @@ export default function StylistChairConsole() {
                     : "bg-[#555555]"
                 }`}
               />
-              <span className="text-lg font-black text-primary">
+              <span className="text-base sm:text-lg font-black text-primary">
                 {stylist.status.replace("_", " ")}
               </span>
             </div>
           </div>
 
-          <div className="grid grid-cols-4 gap-1.5">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 w-full sm:w-auto">
             {(["AVAILABLE", "BUSY", "ON_BREAK", "OFF_DUTY"] as const).map((st) => (
               <button
                 key={st}
                 onClick={() => handleUpdateStatus(st)}
-                className={`px-3 py-2 rounded-xl text-xs font-bold border transition-all ${
+                className={`px-3 py-2 rounded-xl text-xs font-bold border transition-all text-center ${
                   stylist.status === st
                     ? "bg-primary text-white border-primary shadow-sm"
                     : "bg-[#FAF8F5] text-muted border-[#E4E1DC] hover:border-primary/40"
@@ -253,11 +254,11 @@ export default function StylistChairConsole() {
 
         {/* Active Customer in Chair */}
         <div className="space-y-2">
-          <h2 className="text-lg font-bold text-primary">Current Turn in My Chair</h2>
+          <h2 className="text-base sm:text-lg font-bold text-primary">Current Turn in My Chair</h2>
 
           {currentServing ? (
             <div
-              className={`p-6 rounded-3xl border-2 transition-all shadow-md ${
+              className={`p-5 sm:p-6 rounded-2xl sm:rounded-3xl border-2 transition-all shadow-md ${
                 currentServing.status === "CALLED"
                   ? "bg-[#DCE9F7]/40 border-accent animate-call-pulse"
                   : "bg-white border-[#2D6A1F]"

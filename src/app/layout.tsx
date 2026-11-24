@@ -14,7 +14,6 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
   themeColor: "#1F3A5F",
 };
 
@@ -25,9 +24,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="min-h-screen bg-[#FAF8F5] text-[#1B1B1F] flex flex-col font-sans">
+      <body className="min-h-screen bg-[#FAF8F5] text-[#1B1B1F] flex flex-col font-sans w-full overflow-x-hidden">
         <Providers>
-          <div className="flex-1 flex flex-col min-w-[360px]">{children}</div>
+          <div className="flex-1 flex flex-col w-full min-w-0">{children}</div>
         </Providers>
       </body>
     </html>

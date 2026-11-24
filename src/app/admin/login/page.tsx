@@ -44,8 +44,8 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="min-h-screen bg-[#111C2B] text-white flex flex-col justify-center items-center p-4">
-      <div className="max-w-md w-full bg-[#1A283B] rounded-3xl border border-white/10 shadow-2xl p-8 space-y-6">
+    <div className="min-h-screen bg-[#111C2B] text-white flex flex-col justify-center items-center p-3 sm:p-4">
+      <div className="max-w-md w-full bg-[#1A283B] rounded-2xl sm:rounded-3xl border border-white/10 shadow-2xl p-5 sm:p-8 space-y-6">
         <div className="text-center space-y-2">
           <div className="w-16 h-16 rounded-2xl bg-accent text-white flex items-center justify-center mx-auto shadow-lg">
             <ShieldCheck className="w-8 h-8" />

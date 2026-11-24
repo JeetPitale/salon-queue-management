@@ -95,13 +95,13 @@ export default function ServicesManager() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF8F5] text-[#1B1B1F] flex flex-col font-sans">
+    <div className="min-h-screen bg-[#FAF8F5] text-[#1B1B1F] flex flex-col font-sans overflow-x-hidden">
       <AdminNav />
 
-      <main className="flex-1 max-w-5xl w-full mx-auto p-6 space-y-6">
-        <div className="flex items-center justify-between">
+      <main className="flex-1 max-w-5xl w-full mx-auto p-4 sm:p-6 space-y-6">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
           <div>
-            <h1 className="text-2xl font-black text-primary">Services Manager (A2)</h1>
+            <h1 className="text-xl sm:text-2xl font-black text-primary">Services Manager (A2)</h1>
             <p className="text-xs text-muted">
               Add, edit, and deactivate salon services. Deactivation keeps past visit histories intact.
             </p>
@@ -109,7 +109,7 @@ export default function ServicesManager() {
 
           <button
             onClick={handleOpenAdd}
-            className="px-4 py-2.5 rounded-xl bg-primary hover:bg-[#182e4c] text-white font-bold text-xs flex items-center gap-1.5 shadow-sm"
+            className="px-4 py-2.5 rounded-xl bg-primary hover:bg-[#182e4c] text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-sm self-start sm:self-auto"
           >
             <Plus className="w-4 h-4" />
             <span>Add New Service</span>
@@ -195,8 +195,8 @@ export default function ServicesManager() {
 
       {/* Add / Edit Modal */}
       {modalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-md w-full p-6 border border-[#E4E1DC] shadow-2xl space-y-5">
+        <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+          <div className="bg-white rounded-2xl sm:rounded-3xl max-w-sm sm:max-w-md w-full p-5 sm:p-6 border border-[#E4E1DC] shadow-2xl space-y-4 sm:space-y-5 my-auto max-h-[90vh] overflow-y-auto">
             <h3 className="font-bold text-xl text-primary">
               {editingId ? "Edit Service" : "Add Service"}
             </h3>
