@@ -1,5 +1,5 @@
 # Salon Queue Management System
-*Live demo:* https://velvet-and-blade.vercel.app *(Alternative Vercel domain: https://salon-queue-management.vercel.app)*  
+*Live demo:* https://salon-queue-management-kappa.vercel.app/
 *Hosted on:* Vercel (Frontend & Serverless API) + Neon (Cloud PostgreSQL)  
 *Mobile Demo Video (1080×1920 Full HD MP4):* [demo-video.mp4](demo-video.mp4) *(GitHub Release Download: https://github.com/JeetPitale/salon-queue-management/releases/download/v1.2.0/demo-video.mp4)*
 
@@ -121,5 +121,5 @@ npm test
 1. Import repository `JeetPitale/salon-queue-management` in Vercel.
 2. In **Environment Variables**, add:
    - `DATABASE_URL`: Your cloud PostgreSQL connection string (e.g. from Neon).
-   - `NEXT_PUBLIC_APP_URL`: Your Vercel production URL (e.g. `https://velvet-and-blade.vercel.app`).
+   - `NEXT_PUBLIC_APP_URL`: Your Vercel production URL (`https://salon-queue-management-kappa.vercel.app/`).
 3. Deploy! The `package.json` build command automatically executes `prisma generate && next build`.

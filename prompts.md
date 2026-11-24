@@ -413,3 +413,19 @@ This document contains the complete, chronological record of every prompt given 
   - Wrapped `Rule R4 Skill-Matched` badge with `flex-wrap` and pill badge styling.
   - Verified in Chrome DevTools at 320px × 661px: zero horizontal overflow, all buttons fully visible and clickable.
   - Pushed fix to GitHub `main` (commit `cafd618`).
+
+---
+
+### Prompt 19 (Production Vercel Live Deployment URL)
+* **Date & Time**: 2026-11-24 23:47:56 IST
+* **Raw Prompt**:
+  ```text
+  my vercel link : https://salon-queue-management-kappa.vercel.app/
+  add in repo
+  ```
+* **Intent**: Add the user's actual deployed Vercel application URL to the repository documentation, GitHub homepage, and submission headers.
+* **Result**:
+  - Tested live deployment at `https://salon-queue-management-kappa.vercel.app/` (HTTP/2 200 OK).
+  - Updated the top header in `README.md` with the verified production URL.
+  - Updated GitHub repository homepage with the live demo link.
+  - Committed and pushed to GitHub `main`.
