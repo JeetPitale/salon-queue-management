@@ -1,18 +1,52 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Scissors, BarChart3, Settings, Sparkles, Users, ArrowLeft } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import {
+  Scissors,
+  BarChart3,
+  Settings,
+  Sparkles,
+  Users,
+  LogOut,
+  ShieldCheck,
+} from "lucide-react";
 
 export function AdminNav() {
   const pathname = usePathname();
+  const router = useRouter();
+  const [adminUser, setAdminUser] = useState<{ name: string; username: string } | null>(null);
+
+  useEffect(() => {
+    const stored = localStorage.getItem("admin_user");
+    if (!stored) {
+      router.replace("/admin/login");
+      return;
+    }
+    try {
+      const parsed = JSON.parse(stored);
+      if (parsed.role !== "ADMIN") {
+        localStorage.removeItem("admin_user");
+        router.replace("/admin/login");
+        return;
+      }
+      setAdminUser(parsed);
+    } catch {
+      router.replace("/admin/login");
+    }
+  }, [router]);
+
+  const handleLogout = () => {
+    localStorage.removeItem("admin_user");
+    router.replace("/admin/login");
+  };
 
   const links = [
-    { href: "/admin/reports", label: "Reports Dashboard (A4)", icon: BarChart3 },
-    { href: "/admin/settings", label: "Salon Settings (A1)", icon: Settings },
-    { href: "/admin/services", label: "Services Manager (A2)", icon: Sparkles },
-    { href: "/admin/staff", label: "Staff & Skills (A3)", icon: Users },
+    { href: "/admin/reports", label: "Reports Dashboard", icon: BarChart3 },
+    { href: "/admin/settings", label: "Salon Settings", icon: Settings },
+    { href: "/admin/services", label: "Services Manager", icon: Sparkles },
+    { href: "/admin/staff", label: "Staff & Skills", icon: Users },
   ];
 
   return (
@@ -20,12 +54,12 @@ export function AdminNav() {
       <div className="flex items-center gap-6">
         <Link href="/admin/reports" className="flex items-center gap-2 font-black text-xl text-primary">
           <div className="w-8 h-8 rounded-lg bg-accent text-white flex items-center justify-center">
-            <Scissors className="w-4 h-4" />
+            <ShieldCheck className="w-4 h-4" />
           </div>
           <span>Admin Portal</span>
         </Link>
 
-        <nav className="flex items-center gap-2 text-sm font-semibold">
+        <nav className="flex items-center gap-1.5 text-sm font-semibold">
           {links.map((link) => {
             const Icon = link.icon;
             const isActive = pathname === link.href;
@@ -47,14 +81,21 @@ export function AdminNav() {
         </nav>
       </div>
 
-      <div className="flex items-center gap-3">
-        <Link
-          href="/staff/queue"
-          className="text-xs font-bold text-primary hover:text-accent flex items-center gap-1 px-3 py-1.5 rounded-lg border border-[#E4E1DC] hover:border-accent"
+      <div className="flex items-center gap-4">
+        {adminUser && (
+          <span className="text-xs font-bold text-primary">
+            Admin: {adminUser.name}
+          </span>
+        )}
+
+        <button
+          onClick={handleLogout}
+          className="p-1.5 rounded-lg border border-[#E4E1DC] text-muted hover:text-[#8B1A1A] hover:bg-[#F4CCCC]/30 transition-colors flex items-center gap-1 text-xs font-semibold"
+          title="Sign out of Admin Portal"
         >
-          <ArrowLeft className="w-3.5 h-3.5" />
-          <span>Queue Board (S2)</span>
-        </Link>
+          <LogOut className="w-3.5 h-3.5" />
+          <span>Logout</span>
+        </button>
       </div>
     </header>
   );

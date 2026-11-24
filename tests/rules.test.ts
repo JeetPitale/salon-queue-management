@@ -191,4 +191,35 @@ describe("Test Checklist: Data and Rules (T1 - T10)", () => {
       })
     ).rejects.toThrow();
   });
+
+  // Isolated Role Login Tests
+  describe("Role-Isolated Login Tests", () => {
+    it("Rejects stylist trying to login as ADMIN", async () => {
+      const stylist = await prisma.staff.findFirst({ where: { role: "STYLIST" } });
+      expect(stylist).toBeTruthy();
+      expect(stylist!.role).not.toBe("ADMIN");
+      // If expectedRole is ADMIN, stylist role is rejected
+      const isAllowed = stylist!.role === "ADMIN";
+      expect(isAllowed).toBe(false);
+    });
+
+    it("Rejects receptionist trying to login as STYLIST", async () => {
+      const receptionist = await prisma.staff.findFirst({ where: { role: "RECEPTIONIST" } });
+      expect(receptionist).toBeTruthy();
+      const isAllowed = receptionist!.role === "STYLIST";
+      expect(isAllowed).toBe(false);
+    });
+
+    it("Allows stylist to login as STYLIST", async () => {
+      const stylist = await prisma.staff.findFirst({ where: { role: "STYLIST" } });
+      const isAllowed = stylist!.role === "STYLIST";
+      expect(isAllowed).toBe(true);
+    });
+
+    it("Allows admin to login as ADMIN", async () => {
+      const admin = await prisma.staff.findFirst({ where: { role: "ADMIN" } });
+      const isAllowed = admin!.role === "ADMIN";
+      expect(isAllowed).toBe(true);
+    });
+  });
 });

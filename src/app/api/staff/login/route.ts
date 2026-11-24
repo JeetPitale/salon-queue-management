@@ -3,7 +3,7 @@ import { prisma } from "@/lib/prisma";
 
 export async function POST(req: Request) {
   try {
-    const { username, password } = await req.json();
+    const { username, password, expectedRole } = await req.json();
 
     if (!username || !password) {
       return NextResponse.json({ error: "Username and password required" }, { status: 400 });
@@ -19,6 +19,16 @@ export async function POST(req: Request) {
 
     if (!staff || staff.password !== password) {
       return NextResponse.json({ error: "Invalid username or password" }, { status: 401 });
+    }
+
+    // Role Isolation Enforcement
+    if (expectedRole && staff.role !== expectedRole) {
+      return NextResponse.json(
+        {
+          error: `Access denied. This login portal is strictly reserved for ${expectedRole.toLowerCase()} accounts only.`,
+        },
+        { status: 403 }
+      );
     }
 
     return NextResponse.json({
