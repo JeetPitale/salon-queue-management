@@ -270,3 +270,34 @@ This document contains the complete, chronological record of every prompt given 
   ```
 * **Intent**: Comprehensive final audit, creation of structured `README.md`, `prompts.md`, `reflection.md`, 3-minute demo video recording plan, and final submission checklist.
 * **Result**: Project verified, documented, secrets un-tracked, test suites passing, and submission artifacts finalized.
+
+---
+
+## 9. Professional Mobile Demo Video Creation
+
+### Prompt #13 — 3-Minute Vertical Mobile Demo Video
+* **Timestamp**: `2026-11-24T15:45:00Z` (`21:15:00 IST`)
+* **Prompt**:
+  ```text
+  create an video for me 
+  Act as a Professional Product Demo Video Creator and UI/UX Motion Designer.
+  I want you to create a 3-minute professional demo video of my existing website, showcasing its complete functionality in mobile view.
+  ...
+  - Duration: Approximately 3 minutes.
+  - Orientation: Vertical (9:16), optimized for mobile viewing.
+  - Resolution: 1080 × 1920 (Full HD).
+  - Deliverable: Create an actual MP4 demo video showing my website's complete main workflow in mobile view, ready for submission.
+  ```
+* **Intent**: Programmatically create an actual 1080×1920 (9:16) vertical MP4 video file demonstrating the real application end-to-end on a mobile viewport, with speech narration and UI caption cards.
+* **Result**:
+  - Authored headless Chrome automated capture script `scripts/create-demo-video.mjs` using Chrome DevTools Protocol at 450×800 @ 2.4 device scale factor (`1080×1920`).
+  - Synthesized speech narration audio for all 6 scenes using macOS TTS (`Rishi` voice) and encoded 44.1 kHz stereo audio tracks with ffmpeg.
+  - Injected crisp in-browser lower-third overlay badges and titles for each scene and state transition.
+  - Recorded 6 scenes:
+    1. Introduction & Landing
+    2. Homepage & Trilingual Numeral Transliteration
+    3. Primary Customer Journey (Join, Cart, OTP Verification, Live Turn SSE Tracking)
+    4. Staff Console & Waiting Area Salon TV Display
+    5. End-to-End Workflow (Walk-in, UPI Checkout, 5-Star Feedback Form)
+    6. Entrance Touch Kiosk, Admin Reports & Project Submission Conclusion
+  - Encoded and concatenated final Full HD vertical MP4 video: `demo-video.mp4` (root) and `public/demo-video.mp4` (147.2s, 1080×1920, 12.84 MB).

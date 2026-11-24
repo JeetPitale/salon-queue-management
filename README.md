@@ -1,6 +1,7 @@
 # Salon Queue Management System
 *Live demo:* https://velvet-and-blade.vercel.app *(Alternative Vercel domain: https://salon-queue-management.vercel.app)*  
-*Hosted on:* Vercel (Frontend & Serverless API) + Neon (Cloud PostgreSQL)
+*Hosted on:* Vercel (Frontend & Serverless API) + Neon (Cloud PostgreSQL)  
+*Mobile Demo Video (1080×1920 Full HD MP4):* [demo-video.mp4](demo-video.mp4) *(Live stream: https://velvet-and-blade.vercel.app/demo-video.mp4)*
 
 ---
 
